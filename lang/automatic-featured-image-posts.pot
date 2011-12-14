@@ -1,0 +1,73 @@
+# Copyright (C) 2010 Automatic Featured Image Posts
+# This file is distributed under the same license as the Automatic Featured Image Posts package.
+msgid ""
+msgstr ""
+"Project-Id-Version: Automatic Featured Image Posts 0.1\n"
+"Report-Msgid-Bugs-To: http://wordpress.org/tag/automatic-featured-image-"
+"posts\n"
+"POT-Creation-Date: 2011-12-10 01:10:54+00:00\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"PO-Revision-Date: 2010-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+
+#: automatic-featured-image-posts.php:60
+msgid "Auto Image Posts"
+msgstr ""
+
+#. #-#-#-#-#  plugin.pot (Automatic Featured Image Posts 0.1)  #-#-#-#-#
+#. Plugin Name of the plugin/theme
+#: automatic-featured-image-posts.php:67
+msgid "Automatic Featured Image Posts"
+msgstr ""
+
+#: automatic-featured-image-posts.php:68
+msgid "Overview"
+msgstr ""
+
+#: automatic-featured-image-posts.php:69
+msgid ""
+"In this first release, the only setting available is for\r\n"
+"   \t\t\twhat status the automatically created post will have after you "
+"upload an image. By default it is set to publish,\r\n"
+"   \t\t\twhich means as soon as you upload a new image, a new post will "
+"appear. Options for draft and private are also\r\n"
+"   \t\t\tavailable, though it should be noted that using using bulk edit in "
+"WordPress to change the post status from draft\r\n"
+"   \t\t\tto publish seems to change the post date for all selected posts to "
+"your current time. You may want to use quick\r\n"
+"   \t\t\tedit or edit instead when changing statuses."
+msgstr ""
+
+#: automatic-featured-image-posts.php:81
+msgid "Save Changes"
+msgstr ""
+
+#: automatic-featured-image-posts.php:92
+msgid "Default Post Status:"
+msgstr ""
+
+#: automatic-featured-image-posts.php:147
+msgid "Settings"
+msgstr ""
+
+#. Plugin URI of the plugin/theme
+msgid ""
+"http://www.jeremyfelt.com/wordpress/plugins/automatic-featured-image-posts/"
+msgstr ""
+
+#. Description of the plugin/theme
+msgid ""
+"Automatically creates a new post with an assigned featured image from every "
+"image upload."
+msgstr ""
+
+#. Author of the plugin/theme
+msgid "Jeremy Felt"
+msgstr ""
+
+#. Author URI of the plugin/theme
+msgid "http://www.jeremyfelt.com"
+msgstr ""
