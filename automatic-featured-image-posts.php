@@ -3,7 +3,7 @@
 Plugin Name: Automatic Featured Image Posts
 Plugin URI: http://www.jeremyfelt.com/wordpress/plugins/automatic-featured-image-posts/
 Description: Automatically creates a new post with an assigned featured image from every image upload.
-Version: 0.1
+Version: 0.2
 Author: Jeremy Felt
 Author URI: http://www.jeremyfelt.com
 License: GPL2
@@ -157,14 +157,18 @@ function afip_create_post_from_image( $data , $post_id ){
     if( ! wp_attachment_is_image( $post_id ) )
         return $data;
 
-    $assign_categories = array();
+    /*  By default, we use a blank category array which gives us only the default category
+        when the post is created. */
+    $new_post_category = array();
 
-    if ( get_post( $post_id )->post_parent ){
+    if ( get_post( $post_id )->post_parent ) {
+        /*  TODO: Make this an option at some point. */
+        /*  This image is being added through an existing post, so we'll grab existing category data. */
         $parent_post_id = get_post( $post_id )->post_parent;
         $parent_post_categories = get_the_category( $parent_post_id );
-        if ( $parent_post_categories ){
+        if ( $parent_post_categories ) {
             foreach( $parent_post_categories as $post_cat ) {
-                $assign_categories[] = $post_cat->cat_ID;
+                $new_post_category[] = $post_cat->cat_ID;
             }
         }
     }
@@ -203,7 +207,7 @@ function afip_create_post_from_image( $data , $post_id ){
         'post_status' => $new_post_status,
         'post_author' => $new_post_author,
         'post_date' => $new_post_date,
-        'post_category' => $assign_categories
+        'post_category' => $new_post_category
     );
 
     /*  Insert the new post */
