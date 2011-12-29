@@ -157,6 +157,18 @@ function afip_create_post_from_image( $data , $post_id ){
     if( ! wp_attachment_is_image( $post_id ) )
         return $data;
 
+    $assign_categories = array();
+
+    if ( get_post( $post_id )->post_parent ){
+        $parent_post_id = get_post( $post_id )->post_parent;
+        $parent_post_categories = get_the_category( $parent_post_id );
+        if ( $parent_post_categories ){
+            foreach( $parent_post_categories as $post_cat ) {
+                $assign_categories[] = $post_cat->cat_ID;
+            }
+        }
+    }
+
     /*  Great! It is an image, process it fully. */
     $afip_options = get_option( 'afip_options' );
 
@@ -190,7 +202,8 @@ function afip_create_post_from_image( $data , $post_id ){
         'post_content' => $new_post_content,
         'post_status' => $new_post_status,
         'post_author' => $new_post_author,
-        'post_date' => $new_post_date
+        'post_date' => $new_post_date,
+        'post_category' => $assign_categories
     );
 
     /*  Insert the new post */
