@@ -5,7 +5,7 @@ Donate link: http://www.jeremyfelt.com/wordpress/plugins/automatic-featured-imag
 Tags: featured image, media, photo, pictures, posts, photoblog, upload, automatic
 Requires at least: 3.2.1
 Tested up to: 3.3
-Stable tag: 0.1
+Stable tag: 0.2
 
 Automatic Featured Image Posts creates a new post with a Featured Image every time an image is uploaded.
 
@@ -45,6 +45,10 @@ That's it!
 1. An overview of the Automatic Featured Image Posts settings screen.
 
 == Changelog ==
+= 0.2 =
+
+* Images uploaded through the 'edit post' screen are now assigned the categories of that post. Requested by jackthalad. Will be a configurable option in next release.
+
 = 0.1 =
 
 * In which a plugin begins its life.
