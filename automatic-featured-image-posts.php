@@ -60,6 +60,9 @@ function afip_activate(){
 	$afip_options[ 'default_post_status' ] = isset( $current_afip_options[ 'default_post_status' ] ) ? $current_afip_options[ 'default_post_status' ] : 'publish';
 	$afip_options[ 'default_post_type' ] = isset( $current_afip_options[ 'default_post_type' ] ) ? $current_afip_options[ 'default_post_type' ] : 'post';
 	add_option( 'afip_options', $afip_options );
+
+	if ( ! get_option( 'afip_upgrade_check' ) )
+		add_option( 'afip_upgrade_check', '0.3' );
 }
 
 function afip_add_settings(){
