@@ -41,6 +41,10 @@ That's it!
 
 *  I solved my use case, so I'm looking for ideas from you. What options do you want to configure?
 
+= Why is the Last Updated date in the repository so non updated? =
+
+*  I don't know, but I'm updating the readme file again just to see if it bumps it up. :)
+
 == Screenshots ==
 
 1. An overview of the Automatic Featured Image Posts settings screen.
