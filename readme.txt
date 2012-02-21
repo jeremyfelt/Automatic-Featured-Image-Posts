@@ -18,10 +18,11 @@ The imagined use case is to make managing a large number of photos through WordP
 After uploading 10, 100, or 1000 pictures from an event or vacation, you and other users can go through and spend the majority of your time adding content, tags, and titles to your photographs rather than going through a monotonous process creating new posts over and over again.
 
 Settings are available for:
-* Default Post Status (draft, pending, published, private)
-* Default Post Type
-** Default is the WordPress post.
-** Can choose any custom post type registered in your WordPress installation.
+
+*  Default Post Status (draft, pending, published, private)
+*  Default Post Type
+    *  Default is the WordPress post.
+    *  Can choose any custom post type registered in your WordPress installation.
 
 == Installation ==
 
@@ -40,10 +41,6 @@ That's it!
 = What's next? =
 
 *  I solved my use case, so I'm looking for ideas from you. What options do you want to configure?
-
-= Why is the Last Updated date in the repository so non updated? =
-
-*  I don't know, but I'm updating the readme file again just to see if it bumps it up. :)
 
 == Screenshots ==
 
