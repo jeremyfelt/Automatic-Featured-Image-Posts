@@ -1,16 +1,16 @@
-Automatic Featured Image Posts
---------------------------------------
+# Automatic Featured Image Posts
 
-Contributors: jeremyfelt
-Donate link: http://www.jeremyfelt.com/wordpress/plugins/automatic-featured-image-posts/
-Tags: featured image, media, photo, pictures, posts, photoblog, upload, automatic, custom post type
-Requires at least: 3.2.1
-Tested up to: 3.3
-Stable tag: 0.3
+
+* Contributors: jeremyfelt
+* Donate link: http://www.jeremyfelt.com/wordpress/plugins/automatic-featured-image-posts/
+* Tags: featured image, media, photo, pictures, posts, photoblog, upload, automatic, custom post type
+* Requires at least: 3.2.1
+* Tested up to: 3.3
+* Stable tag: 0.3
 
 Automatic Featured Image Posts creates a new post with a Featured Image every time an image is uploaded.
 
-== Description ==
+## Description
 
 Automatic Featured Image Posts creates a new post with a Featured Image every time an image is uploaded. Through the plugin settings page, you can set the image to publish and assign itself to one of your other existing custom post types.
 
