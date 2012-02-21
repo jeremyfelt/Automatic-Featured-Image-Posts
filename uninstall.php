@@ -1,17 +1,15 @@
 <?php
-
-/*  Uninstall file for the Automatic Featured Image Posts plugin.
-
-    The only settings that we add when Automatic Featured Image Posts
-    is in use are under the option name 'cpppc_options'. Not much to
-    do for cleanup, but here it is. */
-
-/*  Check to make sure this file has been called by WordPress and
-    not through any kind of direct link. */
+/* Uninstall file for the Automatic Featured Image Posts plugin.
+ *
+ * 2 options are added for Automatic Featured Image Posts
+ *
+ * afip_options controlled the post status and post type
+ * afip_upgrade_check helped performer smoother upgrades
+ *
+ * Both are deleted when the plugin is uninstalled.
+*/
 if( ! defined( 'ABSPATH' ) && ! defined( 'WP_UNINSTALL_PLUGIN' ) )
-    exit();
+	exit();
 
-/*  Delete the afip_options */
 delete_option( 'afip_options' );
-
-?>
+delete_option( 'afip_upgrade_check' );
