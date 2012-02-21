@@ -30,25 +30,35 @@ Settings are available for:
 That's it!
 
 ## Frequently Asked Questions
-###Why aren't there any FAQs?
+### Why aren't there any FAQs?
 * Because nobody has asked a question yet.
-###What's next?
+
+### What's next?
 * I solved my use case, so I'm looking for ideas from you. What options do you want to configure?
+
 ## Screenshots
 1. An overview of the Automatic Featured Image Posts settings screen.
+
 ## Changelog
+
 ### 0.3
 * An option to assign the posts created through Automatic Featured Image Posts to any of your existing custom post types has been added.
 * General code cleanup & refactoring.
 * Language file update to match new settings.
+
 ### 0.2
 * Images uploaded through the 'edit post' screen are now assigned the categories of that post. Requested by jackthalad. Will be a configurable option in next release.
+
 ### 0.1
 * In which a plugin begins its life.
+
 ## Upgrade Notice
+
 ### 0.3
 * NEW - Option to assign posts created through Automatic Featured Image Posts to any of your existing custom post types.
+
 ### 0.2
 * Posts created by images uploaded through 'edit post' inherit the category of that existing post.
+
 ###0.1
 * Initial installation.
