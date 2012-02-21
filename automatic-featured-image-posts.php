@@ -74,12 +74,12 @@ function afip_view_settings(){
 		<div class="icon32" id="icon-options-general"></div>
 			<h2>' . __( 'Automatic Featured Image Posts', 'automatic-featured-image-posts' ) . '</h2>
 			<h3>' . __( 'Overview', 'automatic-featured-image-posts' ) . ':</h3>
-			<p style="margin-left:12px;max-width:640px;">' . __( 'In this first release, the only setting available is for
-			what status the automatically created post will have after you upload an image. By default it is set to publish,
-			which means as soon as you upload a new image, a new post will appear. Options for draft and private are also
-			available, though it should be noted that using using bulk edit in WordPress to change the post status from draft
-			to publish seems to change the post date for all selected posts to your current time. You may want to use quick
-			edit or edit instead when changing statuses.', 'automatic-featured-image-posts' ) . '</p>';
+			<p style="margin-left:12px;max-width:640px;">' . __( 'Two options are available to you with Automatic Featured
+			Image Posts. Default Post Status is set to publish by default, which means that as soon as you upload a new image
+			through any interface in the WordPress admin, a new post will appear with that image assigned to it as the featured
+			image. The Default Post Type is set to the most familiar WordPress post type, post. The other custom post types
+			installed on your site have been automatically detected and will appear in the drop down menu as options. Note that
+			these custom post types should have support for featured images, or they may not appear as you would like.', 'automatic-featured-image-posts' ) . '</p>';
 	   echo '<form method="post" action="options.php">';
 
 	settings_fields( 'afip_options' );
