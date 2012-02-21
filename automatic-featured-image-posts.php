@@ -122,27 +122,11 @@ function afip_default_post_type_text(){
 function afip_default_post_status_text(){
     $afip_options = get_option( 'afip_options' );
 
-    /*  There's probably a better way to do this, but I'm tired and this works and I'll think of one later.
-        I promise. */
-    $s1 = '';
-    $s2 = '';
-    $s3 = '';
-
-    if( 'draft' == $afip_options[ 'default_post_status' ] ){
-        $s1 = 'selected="yes"';
-    }elseif( 'publish' == $afip_options[ 'default_post_status' ] ){
-        $s2 = 'selected="yes"';
-    }elseif( 'private' == $afip_options[ 'default_post_status' ] ){
-        $s3 = 'selected="yes"';
-    }else{
-        $s1 = 'selected="yes"';
-    }
-
     echo '<select id="afip_default_post_status" name="afip_options[default_post_status]">
-            <option value="draft" ' . $s1 . '>draft</option>
-            <option value="publish" ' . $s2 . '>publish</option>
-            <option value="private" ' . $s3 . '>private</option>
-          </select>';
+            <option value="draft" ' . selected( $afip_options[ 'default_post_status' ], 'draft', false ) . '>draft</option>
+            <option value="publish" ' . selected( $afip_options[ 'default_post_status' ], 'publish', false ) . '>publish</option>
+            <option value="private" ' . selected( $afip_options[ 'default_post_status' ], 'private', false ) . '>private</option>
+         </select>';
 }
 
 function afip_options_validate( $input ) {
