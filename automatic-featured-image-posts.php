@@ -28,6 +28,8 @@ License: GPL2
 register_activation_hook( __FILE__, 'afip_activate' );
 
 if ( is_admin() ){
+	/*  We added an option in version 0.3, need to create it on upgrade */
+	add_action( 'admin_init', 'afip_check_and_upgrade' );
     /*  Add our settings to the admin menu. */
     add_action( 'admin_menu', 'afip_add_settings' );
     /*  Register the settings. */
@@ -40,6 +42,11 @@ if ( is_admin() ){
     the attachment has been uploaded and meta data saved. */
 add_filter( 'wp_update_attachment_metadata', 'afip_create_post_from_image', 10, 2 );
 
+function afip_check_and_upgrade(){
+	if ( ! get_option( 'afip_upgrade_check' ) )
+		afip_activate();
+}
+
 function afip_add_languages(){
     /*  Add language data for the plugin. */
     $plugin_dir = basename( dirname( __FILE__ ) ) . '/lang';
@@ -50,7 +57,8 @@ function afip_activate(){
     /*  Upon activation, we'll want to check for existing options and make sure things
         are in their right place. */
     $current_afip_options = get_option( 'afip_options' );
-    $afip_options[ 'default_post_status' ] = $current_afip_options[ 'default_post_status' ] ? $current_afip_options[ 'default_post_status' ] : 'publish';
+    $afip_options[ 'default_post_status' ] = isset( $current_afip_options[ 'default_post_status' ] ) ? $current_afip_options[ 'default_post_status' ] : 'publish';
+	$afip_options[ 'default_post_type' ] = isset( $current_afip_options[ 'default_post_type' ] ) ? $current_afip_options[ 'default_post_type' ] : 'post';
    	add_option( 'afip_options', $afip_options );
 }
 
@@ -90,10 +98,25 @@ function afip_register_settings(){
     register_setting( 'afip_options', 'afip_options', 'afip_options_validate' );
    	add_settings_section( 'afip_section_main', '', 'afip_section_text', 'afip' );
     add_settings_field( 'afip_default_post_status', __( 'Default Post Status:', 'automatic-featured-image-posts' ) , 'afip_default_post_status_text', 'afip', 'afip_section_main' );
+	add_settings_field( 'afip_default_post_type', __( 'Default Post Type:', 'automatic-featured-image-posts' ), 'afip_default_post_type_text', 'afip', 'afip_section_main' );
 }
 
 function afip_section_text(){
     /*  Placeholder for later. Nothing really needed at the moment. */
+}
+
+function afip_default_post_type_text(){
+	$afip_options = get_option( 'afip_options' );
+	$all_post_types = get_post_types( array( '_builtin' => false ) );
+
+	if ( ! isset( $afip_options[ 'default_post_type' ] ) )
+		$afip_options[ 'default_post_type' ] = array( 'post' );
+
+	echo '<select id="afip-default-post-type" name="afip_options[default_post_type]"><option value="post" ' . selected( $afip_options[ 'default_post_type' ], 'post', false ) . '>Post</option>';
+	foreach ( $all_post_types as $p ) {
+		echo '<option value="' . $p . '" ' . selected( $afip_options[ 'default_post_type' ], $p, false ) . '>' . $p . '</option>';
+	}
+	echo '</select>';
 }
 
 function afip_default_post_status_text(){
@@ -124,10 +147,15 @@ function afip_default_post_status_text(){
 
 function afip_options_validate( $input ) {
     /*  Validation of a drop down. Hmm. Well, if it isn't on our list, we'll force it onto our list. */
-    $valid_options = array( 'draft', 'publish', 'private' );
+    $valid_post_status_options = array( 'draft', 'publish', 'private' );
+	$valid_post_type_options = get_post_types( array( '_builtin' => false ) );
+	$valid_post_type_options[] = 'post';
 
-    if( ! in_array( $input[ 'default_post_status' ], $valid_options ) )
+    if( ! in_array( $input[ 'default_post_status' ], $valid_post_status_options ) )
         $input[ 'default_post_status' ] = 'draft';
+
+	if( ! in_array( $input[ 'default_post_type' ], $valid_post_type_options ) )
+		$input[ 'default_post_type' ] = 'post';
 
     return $input;
 }
@@ -196,6 +224,7 @@ function afip_create_post_from_image( $data , $post_id ){
 
     /*  This will be an option in the future, but for now the default status is draft. */
     $new_post_status = $afip_options[ 'default_post_status' ];
+	$new_post_type = $afip_options[ 'default_post_type' ];
 
     $current_user = wp_get_current_user();
     $new_post_author = $current_user->ID;
@@ -207,7 +236,8 @@ function afip_create_post_from_image( $data , $post_id ){
         'post_status' => $new_post_status,
         'post_author' => $new_post_author,
         'post_date' => $new_post_date,
-        'post_category' => $new_post_category
+        'post_category' => $new_post_category,
+	    'post_type' => $new_post_type,
     );
 
     /*  Insert the new post */
@@ -219,5 +249,3 @@ function afip_create_post_from_image( $data , $post_id ){
     return $data;
 
 }
-
-?>
