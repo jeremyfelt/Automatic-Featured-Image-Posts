@@ -75,9 +75,11 @@ function afip_view_settings(){
 			<h2>' . __( 'Automatic Featured Image Posts', 'automatic-featured-image-posts' ) . '</h2>
 			<h3>' . __( 'Overview', 'automatic-featured-image-posts' ) . ':</h3>
 			<p style="margin-left:12px;max-width:640px;">' . __( 'Two options are available to you with Automatic Featured
-			Image Posts. Default Post Status is set to publish by default, which means that as soon as you upload a new image
-			through any interface in the WordPress admin, a new post will appear with that image assigned to it as the featured
-			image. The Default Post Type is set to the most familiar WordPress post type, post. The other custom post types
+			Image Posts.', 'automatic-featured-image-posts' ) . '</p><p style="margin-left:12px;max-width:640px;">'
+		. __('Default Post Status is set to publish by default, which means that as soon as you upload a new image through
+		any interface in the WordPress admin pages, a new post will appear with that image assigned as the featured
+			image.', 'automatic-featured-image-posts' ) . '</p><p style="margin-left:12px;max-width: 640px;">'
+		.__('The Default Post Type is set to the most familiar WordPress post type, post. The other custom post types
 			installed on your site have been automatically detected and will appear in the drop down menu as options. Note that
 			these custom post types should have support for featured images, or they may not appear as you would like.', 'automatic-featured-image-posts' ) . '</p>';
 	   echo '<form method="post" action="options.php">';
