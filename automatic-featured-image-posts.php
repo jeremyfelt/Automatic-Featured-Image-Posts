@@ -3,7 +3,7 @@
 Plugin Name: Automatic Featured Image Posts
 Plugin URI: http://www.jeremyfelt.com/wordpress/plugins/automatic-featured-image-posts/
 Description: Automatically creates a new post with an assigned featured image from every image upload.
-Version: 0.2
+Version: 0.3
 Author: Jeremy Felt
 Author URI: http://www.jeremyfelt.com
 License: GPL2
@@ -86,7 +86,6 @@ function afip_view_settings(){
 			installed on your site have been automatically detected and will appear in the drop down menu as options. Note that
 			these custom post types should have support for featured images, or they may not appear as you would like.', 'automatic-featured-image-posts' ) . '</p>';
 	   echo '<form method="post" action="options.php">';
-
 	settings_fields( 'afip_options' );
 	do_settings_sections( 'afip' ); // Display the main section of settings.
 
