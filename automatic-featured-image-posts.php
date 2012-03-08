@@ -25,37 +25,10 @@ License: GPL2
 	Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 */
 
+/* Upon activation, we'll want to check for existing options and make sure
+ * things are in their right place. */
 register_activation_hook( __FILE__, 'afip_activate' );
-
-if ( is_admin() ){
-	/*  We added an option in version 0.3, need to create it on upgrade */
-	add_action( 'admin_init', 'afip_check_and_upgrade' );
-	/*  Add our settings to the admin menu. */
-	add_action( 'admin_menu', 'afip_add_settings' );
-	/*  Register the settings. */
-	add_action( 'admin_init', 'afip_register_settings' );
-	/*  Make a pretty link for settings under the plugin information. */
-	add_filter( 'plugin_action_links', 'afip_plugin_action_links', 10, 2);
-}
-
-/*  Hook into the wp_update_attachment_metadata filter, which occurs after
-	the attachment has been uploaded and meta data saved. */
-add_filter( 'wp_update_attachment_metadata', 'afip_create_post_from_image', 10, 2 );
-
-function afip_check_and_upgrade(){
-	if ( ! get_option( 'afip_upgrade_check' ) )
-		afip_activate();
-}
-
-function afip_add_languages(){
-	/*  Add language data for the plugin. */
-	$plugin_dir = basename( dirname( __FILE__ ) ) . '/lang';
-	load_plugin_textdomain( 'automated-featured-image-posts', false, $plugin_dir );
-}
-
-function afip_activate(){
-	/*  Upon activation, we'll want to check for existing options and make sure things
-		are in their right place. */
+function afip_activate() {
 	$current_afip_options = get_option( 'afip_options' );
 	$afip_options[ 'default_post_status' ] = isset( $current_afip_options[ 'default_post_status' ] ) ? $current_afip_options[ 'default_post_status' ] : 'publish';
 	$afip_options[ 'default_post_type' ] = isset( $current_afip_options[ 'default_post_type' ] ) ? $current_afip_options[ 'default_post_type' ] : 'post';
@@ -65,73 +38,92 @@ function afip_activate(){
 		add_option( 'afip_upgrade_check', '0.3' );
 }
 
-function afip_add_settings(){
-	/*	Add the sub-menu item under the Settings top-level menu. Of course, since I have to pick
-		such a long plugin name, we'll shorten this to Auto Image Posts instead. */
+/* We added an option in version 0.3, need to create
+ * it on upgrade */
+add_action( 'admin_init', 'afip_check_and_upgrade' );
+function afip_check_and_upgrade() {
+	if ( ! get_option( 'afip_upgrade_check' ) )
+		afip_activate();
+}
+
+/*  Add language data for the plugin. */
+add_action( 'admin_init', 'afip_add_languages' );
+function afip_add_languages() {
+	$plugin_dir = basename( dirname( __FILE__ ) ) . '/lang';
+	load_plugin_textdomain( 'automated-featured-image-posts', false, $plugin_dir );
+}
+
+/* Add our settings to the admin menu.
+ *
+ * Add the sub-menu item under the Settings top-level menu. Of course, since I have to pick
+ * such a long plugin name, we'll shorten this to Auto Image Posts instead.
+*/
+add_action( 'admin_menu', 'afip_add_settings' );
+function afip_add_settings() {
 	add_options_page( __('Auto Image Posts', 'automatic-featured-image-posts' ), __('Auto Image Posts', 'automatic-featured-image-posts'), 'manage_options', 'automatic-featured-image-posts-settings', 'afip_view_settings' );
 }
 
-function afip_view_settings(){
-	/*	Display the main settings view for Custom Posts Per Page. */
-	echo '<div class="wrap">
+/* Callback function to display main settings view for
+ * Automatic Featred Image Posts */
+function afip_view_settings() {
+?>
+	<div class="wrap">
 		<div class="icon32" id="icon-options-general"></div>
-			<h2>' . __( 'Automatic Featured Image Posts', 'automatic-featured-image-posts' ) . '</h2>
-			<h3>' . __( 'Overview', 'automatic-featured-image-posts' ) . ':</h3>
-			<p style="margin-left:12px;max-width:640px;">' . __( 'Two options are available to you with Automatic Featured
-			Image Posts.', 'automatic-featured-image-posts' ) . '</p><p style="margin-left:12px;max-width:640px;">'
-		. __('Default Post Status is set to publish by default, which means that as soon as you upload a new image through
-		any interface in the WordPress admin pages, a new post will appear with that image assigned as the featured
-			image.', 'automatic-featured-image-posts' ) . '</p><p style="margin-left:12px;max-width: 640px;">'
-		.__('The Default Post Type is set to the most familiar WordPress post type, post. The other custom post types
-			installed on your site have been automatically detected and will appear in the drop down menu as options. Note that
-			these custom post types should have support for featured images, or they may not appear as you would like.', 'automatic-featured-image-posts' ) . '</p>';
-	   echo '<form method="post" action="options.php">';
-	settings_fields( 'afip_options' );
-	do_settings_sections( 'afip' ); // Display the main section of settings.
-
-	echo '<p class="submit"><input type="submit" class="button-primary" value="';
-	_e( 'Save Changes', 'automatic-featured-image-posts' );
-	echo '" /></p></form></div>';
+		<h2><?php _e( 'Automatic Featured Image Posts', 'automatic-featured-image-posts' ); ?></h2>
+		<h3><?php _e( 'Overview', 'automatic-featured-image-posts' ); ?></h3>
+		<p style="margin-left: 12px;max-width: 640px;"><?php _e( 'Two options are available to you with Automatic Featured Image Posts.', 'automatic-featured-image-posts' ); ?></p>
+		<p style="margin-left: 12px;max-width: 640px;"><?php _e('Default Post Status is set to publish by default, which means that as soon as you upload a new image through	any interface in the WordPress admin pages, a new post will appear with that image assigned as the featured	image.', 'automatic-featured-image-posts' ); ?></p>
+		<p style="margin-left: 12px;max-width: 640px;"><?php _e('The Default Post Type is set to the most familiar WordPress post type, post. The other custom post types installed on your site have been automatically detected and will appear in the drop down menu as options. Note that these custom post types should have support for featured images, or they may not appear as you would like.', 'automatic-featured-image-posts' ); ?></p>
+		<form method="POST" action="options.php">
+<?php
+		settings_fields( 'afip_options' );
+		do_settings_sections( 'afip' ); // Display the main section of settings.
+?>
+			<p class="submit"><input type="submit" class="button-primary" value="<?php _e( 'Save Changes', 'automatic-featured-image-posts' ); ?>"></p>
+		</form></div>
+<?php
 }
 
-function afip_register_settings(){
-	/*  Register the settings we want available for this. */
+/*  Register the settings. */
+add_action( 'admin_init', 'afip_register_settings' );
+function afip_register_settings() {
 	register_setting( 'afip_options', 'afip_options', 'afip_options_validate' );
 	add_settings_section( 'afip_section_main', '', 'afip_section_text', 'afip' );
 	add_settings_field( 'afip_default_post_status', __( 'Default Post Status:', 'automatic-featured-image-posts' ) , 'afip_default_post_status_text', 'afip', 'afip_section_main' );
 	add_settings_field( 'afip_default_post_type', __( 'Default Post Type:', 'automatic-featured-image-posts' ), 'afip_default_post_type_text', 'afip', 'afip_section_main' );
 }
 
-function afip_section_text(){
+function afip_section_text() {
 	/*  Placeholder for later. Nothing really needed at the moment. */
 }
 
-function afip_default_post_type_text(){
+function afip_default_post_type_text() {
 	$afip_options = get_option( 'afip_options' );
 	$all_post_types = get_post_types( array( '_builtin' => false ) );
 
 	if ( ! isset( $afip_options[ 'default_post_type' ] ) )
 		$afip_options[ 'default_post_type' ] = array( 'post' );
-
-	echo '<select id="afip-default-post-type" name="afip_options[default_post_type]"><option value="post" ' . selected( $afip_options[ 'default_post_type' ], 'post', false ) . '>Post</option>';
-	foreach ( $all_post_types as $p ) {
-		echo '<option value="' . $p . '" ' . selected( $afip_options[ 'default_post_type' ], $p, false ) . '>' . $p . '</option>';
-	}
-	echo '</select>';
+?>
+	<select id="afip-default-post-type" name="afip_options[default_post_type]">
+		<option value="post" <?php selected( $afip_options[ 'default_post_type' ], 'post' ); ?>>Post</option>
+		<?php foreach( $all_post_types as $p ) : ?><option value="<?php echo $p; ?>" <?php selected( $afip_options[ 'default_post_type' ], $p ); ?>><?php echo $p; ?></option><?php endforeach; ?>
+	</select>
+<?php
 }
 
-function afip_default_post_status_text(){
+function afip_default_post_status_text() {
 	$afip_options = get_option( 'afip_options' );
-
-	echo '<select id="afip_default_post_status" name="afip_options[default_post_status]">
-			<option value="draft" ' . selected( $afip_options[ 'default_post_status' ], 'draft', false ) . '>draft</option>
-			<option value="publish" ' . selected( $afip_options[ 'default_post_status' ], 'publish', false ) . '>publish</option>
-			<option value="private" ' . selected( $afip_options[ 'default_post_status' ], 'private', false ) . '>private</option>
-		 </select>';
+?>
+	<select id="afip_default_post_status" name="afip_options[default_post_status]">
+		<option value="draft" <?php selected( $afip_options[ 'default_post_status' ], 'draft' ); ?>>draft</option>
+		<option value="publish" <?php selected( $afip_options[ 'default_post_status' ], 'publish' ); ?>>publish</option>
+		<option value="private" <?php selected( $afip_options[ 'default_post_status' ], 'private' ); ?>>private</option>
+	</select>
+<?php
 }
 
+/*  Validation of a drop down. Hmm. Well, if it isn't on our list, we'll force it onto our list. */
 function afip_options_validate( $input ) {
-	/*  Validation of a drop down. Hmm. Well, if it isn't on our list, we'll force it onto our list. */
 	$valid_post_status_options = array( 'draft', 'publish', 'private' );
 	$valid_post_type_options = get_post_types( array( '_builtin' => false ) );
 	$valid_post_type_options[] = 'post';
@@ -145,7 +137,9 @@ function afip_options_validate( $input ) {
 	return $input;
 }
 
-function afip_plugin_action_links( $links, $file ){
+/*  Make a pretty link for settings under the plugin information. */
+add_filter( 'plugin_action_links', 'afip_plugin_action_links', 10, 2 );
+function afip_plugin_action_links( $links, $file ) {
 	/*  Function gratefully taken (and barely modified) from Pippin Williamson's
 		WPMods article: http://www.wpmods.com/adding-plugin-action-links/ */
 	static $this_plugin;
@@ -153,17 +147,18 @@ function afip_plugin_action_links( $links, $file ){
 	if ( ! $this_plugin )
 		$this_plugin = plugin_basename( __FILE__ );
 
-	// check to make sure we are on the correct plugin
-	if ( $file == $this_plugin ){
+	if ( $file == $this_plugin ) {
 		$settings_path = '/wp-admin/options-general.php?page=automatic-featured-image-posts-settings';
 		$settings_link = '<a href="' . get_bloginfo( 'wpurl' ) . $settings_path . '">' . __( 'Settings', 'automatic-featured-image-posts' ) . '</a>';
 		array_unshift( $links, $settings_link );  // add the link to the list
 	}
-
 	return $links;
 }
 
-function afip_create_post_from_image( $data , $post_id ){
+/*  Hook into the wp_update_attachment_metadata filter, which occurs after
+	the attachment has been uploaded and meta data saved. */
+add_filter( 'wp_update_attachment_metadata', 'afip_create_post_from_image', 10, 2 );
+function afip_create_post_from_image( $data , $post_id ) {
 	/*  Check to see if this is an image, as that's all we work with currently. */
 	if( ! wp_attachment_is_image( $post_id ) )
 		return $data;
