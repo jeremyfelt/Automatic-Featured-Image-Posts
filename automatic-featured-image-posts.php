@@ -155,73 +155,51 @@ function afip_plugin_action_links( $links, $file ) {
 	return $links;
 }
 
-/*  Hook into the wp_update_attachment_metadata filter, which occurs after
-	the attachment has been uploaded and meta data saved. */
-add_filter( 'wp_update_attachment_metadata', 'afip_create_post_from_image', 10, 2 );
-function afip_create_post_from_image( $data , $post_id ) {
+/* Hook into the add_attachment action, as this should occur after the image has uploaded
+ * and after meta data about the image has been saved. We previously tried using the filter
+ * wp_update_attachment_metadata instead, but that just doesn't seem like the right choice.
+ *
+ * Pulling out extra EXIF areas now, as we weren't really doing anything extra with that, just
+ * relying on the data that WordPress already uses. May be fun to revisit sometime though to
+ * allow for more data from Lightroom, etc.
+*/
+add_action( 'add_attachment', 'afip_create_post_from_image', 20 );
+function afip_create_post_from_image( $post_id ) {
 	/*  Check to see if this is an image, as that's all we work with currently. */
 	if( ! wp_attachment_is_image( $post_id ) )
-		return $data;
+		return;
 
 	/*  By default, we use a blank category array which gives us only the default category
 		when the post is created. */
 	$new_post_category = array();
 
-	if ( get_post( $post_id )->post_parent ) {
-		/*  TODO: Make this an option at some point. */
-		/*  This image is being added through an existing post, so we'll grab existing category data. */
-		$parent_post_id = get_post( $post_id )->post_parent;
-		$parent_post_categories = get_the_category( $parent_post_id );
-		if ( $parent_post_categories ) {
-			foreach( $parent_post_categories as $post_cat ) {
+	/*  This image is being added through an existing post, so we'll grab existing category data. */
+	if ( $parent_post_id = get_post( $post_id )->post_parent ) {
+		if ( $parent_post_categories = get_the_category( $parent_post_id ) ) {
+			foreach( $parent_post_categories as $post_cat )
 				$new_post_category[] = $post_cat->cat_ID;
-			}
 		}
 	}
 
-	/*  Great! It is an image, process it fully. */
 	$afip_options = get_option( 'afip_options' );
 
-	/*  Create the post_date from the EXIF data in the post meta if possible. If a
-		date doesn't exist, we'll just use the current. Also, since created_timestamp
-		is saved in Unix time, we'll be lazy and compare it to 1. */
-	if ( $data[ 'image_meta' ][ 'created_timestamp' ] > 1 ){
-		$new_post_date = date( 'Y-m-d H:i:s', $data[ 'image_meta' ][ 'created_timestamp' ] );
-	}else{
-		$new_post_date = date( 'Y-m-d H:i:s' );
-	}
-
-	/*  The WordPress media library already pulls the title from image metadata upon initial
-		upload, so we don't have to try to hard. We'll either get the file name or the title
-		back and that will have to do. */
-	$new_post_title = get_the_title( $post_id );
-
-	/*  We'll want to make this a template in the future, ideally reading from some kind of Exif
-		tag in the image itself, but for now we'll leave the content blank. */
-	$new_post_content = '';
-
-	/*  This will be an option in the future, but for now the default status is draft. */
-	$new_post_status = $afip_options[ 'default_post_status' ];
-	$new_post_type = $afip_options[ 'default_post_type' ];
+	$new_post_date = date( 'Y-m-d H:i:s' );
 
 	$current_user = wp_get_current_user();
-	$new_post_author = $current_user->ID;
 
 	/*  Build the arguments for the new post being created. */
 	$new_post_data = array(
-		'post_title' => $new_post_title,
-		'post_content' => $new_post_content,
-		'post_status' => $new_post_status,
-		'post_author' => $new_post_author,
+		'post_title' => get_the_title( $post_id ),
+		'post_content' => '',
+		'post_status' => $afip_options[ 'default_post_status' ],
+		'post_author' => $current_user->ID,
 		'post_date' => $new_post_date,
 		'post_category' => $new_post_category,
-		'post_type' => $new_post_type,
+		'post_type' => $afip_options[ 'default_post_type' ],
 	);
 
 	/*  Insert the new post */
 	$new_post_id = wp_insert_post( $new_post_data );
 	/*  Assign the featured image */
 	update_post_meta( $new_post_id, '_thumbnail_id', $post_id );
-
-	return $data;
 }
