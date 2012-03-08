@@ -25,46 +25,43 @@ License: GPL2
 	Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 */
 
-/* Upon activation, we'll want to check for existing options and make sure
- * things are in their right place. */
+/* Upon activation, we'll want to check for existing plugin options and make sure that
+ * defaults are assigned if this is the first time. */
 register_activation_hook( __FILE__, 'afip_activate' );
 function afip_activate() {
 	$current_afip_options = get_option( 'afip_options' );
 	$afip_options[ 'default_post_status' ] = isset( $current_afip_options[ 'default_post_status' ] ) ? $current_afip_options[ 'default_post_status' ] : 'publish';
 	$afip_options[ 'default_post_type' ] = isset( $current_afip_options[ 'default_post_type' ] ) ? $current_afip_options[ 'default_post_type' ] : 'post';
-	add_option( 'afip_options', $afip_options );
+	update_option( 'afip_options', $afip_options );
 
-	if ( ! get_option( 'afip_upgrade_check' ) )
-		add_option( 'afip_upgrade_check', '0.3' );
+	if ( '0.4' != get_option( 'afip_upgrade_check' ) )
+		update_option( 'afip_upgrade_check', '0.4' );
 }
 
-/* We added an option in version 0.3, need to create
- * it on upgrade */
+/* Make sure that we're on the current set of options by checking the version flag
+ * and then running through activation accordingly. */
 add_action( 'admin_init', 'afip_check_and_upgrade' );
 function afip_check_and_upgrade() {
-	if ( ! get_option( 'afip_upgrade_check' ) )
+	if ( '0.4' != get_option( 'afip_upgrade_check' ) )
 		afip_activate();
 }
 
-/*  Add language data for the plugin. */
+/* Add language data for the plugin. */
 add_action( 'admin_init', 'afip_add_languages' );
 function afip_add_languages() {
-	$plugin_dir = basename( dirname( __FILE__ ) ) . '/lang';
-	load_plugin_textdomain( 'automated-featured-image-posts', false, $plugin_dir );
+	load_plugin_textdomain( 'automated-featured-image-posts', false, basename( dirname( __FILE__ ) ) . '/lang' );
 }
 
 /* Add our settings to the admin menu.
  *
  * Add the sub-menu item under the Settings top-level menu. Of course, since I have to pick
- * such a long plugin name, we'll shorten this to Auto Image Posts instead.
-*/
+ * such a long plugin name, we'll shorten this to Auto Image Posts instead. */
 add_action( 'admin_menu', 'afip_add_settings' );
 function afip_add_settings() {
 	add_options_page( __('Auto Image Posts', 'automatic-featured-image-posts' ), __('Auto Image Posts', 'automatic-featured-image-posts'), 'manage_options', 'automatic-featured-image-posts-settings', 'afip_view_settings' );
 }
 
-/* Callback function to display main settings view for
- * Automatic Featred Image Posts */
+/* Callback function to display main settings view for Automatic Featred Image Posts */
 function afip_view_settings() {
 ?>
 	<div class="wrap">
@@ -77,14 +74,14 @@ function afip_view_settings() {
 		<form method="POST" action="options.php">
 <?php
 		settings_fields( 'afip_options' );
-		do_settings_sections( 'afip' ); // Display the main section of settings.
+		do_settings_sections( 'afip' );
 ?>
 			<p class="submit"><input type="submit" class="button-primary" value="<?php _e( 'Save Changes', 'automatic-featured-image-posts' ); ?>"></p>
 		</form></div>
 <?php
 }
 
-/*  Register the settings. */
+/*  Register our settings and add the settings sections and fields. */
 add_action( 'admin_init', 'afip_register_settings' );
 function afip_register_settings() {
 	register_setting( 'afip_options', 'afip_options', 'afip_options_validate' );
@@ -94,7 +91,7 @@ function afip_register_settings() {
 }
 
 function afip_section_text() {
-	/*  Placeholder for later. Nothing really needed at the moment. */
+	/*  Placeholder for settings section. Would be overkill methinks. */
 }
 
 function afip_default_post_type_text() {
@@ -106,7 +103,7 @@ function afip_default_post_type_text() {
 ?>
 	<select id="afip-default-post-type" name="afip_options[default_post_type]">
 		<option value="post" <?php selected( $afip_options[ 'default_post_type' ], 'post' ); ?>>Post</option>
-		<?php foreach( $all_post_types as $p ) : ?><option value="<?php echo $p; ?>" <?php selected( $afip_options[ 'default_post_type' ], $p ); ?>><?php echo $p; ?></option><?php endforeach; ?>
+		<?php foreach( $all_post_types as $p ) : ?><option value="<?php echo esc_attr( $p ); ?>" <?php selected( $afip_options[ 'default_post_type' ], esc_attr( $p ) ); ?>><?php echo esc_html( $p ); ?></option><?php endforeach; ?>
 	</select>
 <?php
 }
@@ -165,15 +162,14 @@ function afip_plugin_action_links( $links, $file ) {
 */
 add_action( 'add_attachment', 'afip_create_post_from_image', 20 );
 function afip_create_post_from_image( $post_id ) {
-	/*  Check to see if this is an image, as that's all we work with currently. */
+
 	if( ! wp_attachment_is_image( $post_id ) )
 		return;
 
-	/*  By default, we use a blank category array which gives us only the default category
-		when the post is created. */
 	$new_post_category = array();
 
-	/*  This image is being added through an existing post, so we'll grab existing category data. */
+	/* If this image is being added through an existing post, we want to make sure it inherits
+	 * the category setting from its parent. */
 	if ( $parent_post_id = get_post( $post_id )->post_parent ) {
 		if ( $parent_post_categories = get_the_category( $parent_post_id ) ) {
 			foreach( $parent_post_categories as $post_cat )
@@ -182,13 +178,10 @@ function afip_create_post_from_image( $post_id ) {
 	}
 
 	$afip_options = get_option( 'afip_options' );
-
 	$new_post_date = date( 'Y-m-d H:i:s' );
-
 	$current_user = wp_get_current_user();
 
-	/*  Build the arguments for the new post being created. */
-	$new_post_data = array(
+	$new_post_id = wp_insert_post( array(
 		'post_title' => get_the_title( $post_id ),
 		'post_content' => '',
 		'post_status' => $afip_options[ 'default_post_status' ],
@@ -196,10 +189,7 @@ function afip_create_post_from_image( $post_id ) {
 		'post_date' => $new_post_date,
 		'post_category' => $new_post_category,
 		'post_type' => $afip_options[ 'default_post_type' ],
-	);
-
-	/*  Insert the new post */
-	$new_post_id = wp_insert_post( $new_post_data );
+	));
 	/*  Assign the featured image */
 	update_post_meta( $new_post_id, '_thumbnail_id', $post_id );
 }
