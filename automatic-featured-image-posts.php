@@ -96,10 +96,10 @@ class Automatic_Featured_Image_Posts_Foghlaim {
 			<div class="icon32" id="icon-options-general"></div>
 			<h2><?php _e( 'Automatic Featured Image Posts', 'automatic-featured-image-posts' ); ?></h2>
 			<h3><?php _e( 'Overview', 'automatic-featured-image-posts' ); ?></h3>
-			<p style="margin-left: 12px;max-width: 640px;"><?php _e( 'Two options are available to you with Automatic Featured Image Posts.', 'automatic-featured-image-posts' ); ?></p>
 			<p style="margin-left: 12px;max-width: 640px;"><?php _e('The default post status is set to <strong>publish</strong> by default. This means that as soon as you upload a new image through any interface in WordPress, a new post will appear with that image assigned as the featured image.', 'automatic-featured-image-posts' ); ?></p>
 			<p style="margin-left: 12px;max-width: 640px;"><?php _e('The default post type is set to the most familiar WordPress post type, <strong>post</strong>. Other custom post types installed on your site have been automatically detected and will appear in the drop down menu as options. Note that these custom post types should have support for featured images, or they may not appear as you would like.', 'automatic-featured-image-posts' ); ?></p>
-			<?php if ( ! current_theme_supports( 'post_thumbnails' ) ) : ?><div class="error" style="margin-left: 12px;max-width: 640px;"><?php _e( '<strong>PLEASE NOTE:</strong> Your current theme does <strong>NOT</strong> support featured images and thus this plugin will be severely limited. Images will be attached to posts after upload, but it may be impossible to see this until featured image support is added to your theme.', 'automatic-featured-image-posts' ); ?></div><?php endif; ?>
+			<?php if ( current_theme_supports( 'post-formats' ) ) : ?><p style="margin-left: 12px;max-width: 640px;"><?php _e( 'Your theme supports <strong>post formats</strong>, so an extra option is available to set which format an automatically created post will be set to. The default is <strong>Standard</strong>. Note that the final display will depend on what is provided by your theme.', 'automatic-featured-image-posts' ); ?></p><?php endif; ?>
+			<?php if ( ! current_theme_supports( 'post-thumbnails' ) ) : ?><div class="error" style="margin-left: 12px;max-width: 640px;"><?php _e( '<strong>PLEASE NOTE:</strong> Your current theme does <strong>NOT</strong> support featured images and thus this plugin will be severely limited. Images will be attached to posts after upload, but it may be impossible to see this until featured image support is added to your theme.', 'automatic-featured-image-posts' ); ?></div><?php endif; ?>
 			<form method="POST" action="options.php">
 		<?php
 			settings_fields( 'afip_options' );
@@ -119,6 +119,10 @@ class Automatic_Featured_Image_Posts_Foghlaim {
 		add_settings_section( 'afip_section_main', '', array( $this, 'output_section_text' ), 'afip' );
 		add_settings_field( 'afip_default_post_status', __( 'Default Post Status:', 'automatic-featured-image-posts' ) , array( $this, 'output_default_post_status_text' ), 'afip', 'afip_section_main' );
 		add_settings_field( 'afip_default_post_type', __( 'Default Post Type:', 'automatic-featured-image-posts' ), array( $this, 'output_default_post_type_text' ), 'afip', 'afip_section_main' );
+
+		if ( current_theme_supports( 'post-formats' ) )
+			add_settings_field( 'afip_default_post_format', __( 'Default Post Format:', 'automatic-featured-image-posts' ), array( $this, 'output_default_post_format_text' ), 'afip', 'afip_section_main' );
+
 	}
 
 	/**
@@ -155,9 +159,34 @@ class Automatic_Featured_Image_Posts_Foghlaim {
 			$afip_options[ 'default_post_status' ] = 'draft';
 		?>
 		<select id="afip_default_post_status" name="afip_options[default_post_status]">
-			<option value="draft" <?php selected( $afip_options[ 'default_post_status' ], 'draft' ); ?>>draft</option>
-			<option value="publish" <?php selected( $afip_options[ 'default_post_status' ], 'publish' ); ?>>publish</option>
-			<option value="private" <?php selected( $afip_options[ 'default_post_status' ], 'private' ); ?>>private</option>
+			<option value="draft" <?php selected( $afip_options[ 'default_post_status' ], 'draft' ); ?>>Draft</option>
+			<option value="publish" <?php selected( $afip_options[ 'default_post_status' ], 'publish' ); ?>>Publish</option>
+			<option value="private" <?php selected( $afip_options[ 'default_post_status' ], 'private' ); ?>>Private</option>
+		</select>
+		<?php
+	}
+
+	public function output_default_post_format_text() {
+		global $_wp_theme_features;
+		$afip_options = get_option( 'afip_options' );
+
+		if ( ! isset( $afip_options[ 'default_post_format' ] ) )
+			$afip_options[ 'default_post_format' ] = 'standard';
+
+		?>
+		<select id="afip_default_post_format" name="afip_options[default_post_format]">
+			<option value="standard" <?php selected( $afip_options[ 'default_post_format' ], 'standard' ); ?>>Standard</option>
+			<?php
+				if ( isset( $_wp_theme_features[ 'post-formats' ] ) ) {
+					foreach ( $_wp_theme_features[ 'post-formats' ] as $post_format_array ){
+						foreach ( $post_format_array as $post_format ) {
+			?>
+						<option value="<?php echo esc_attr( $post_format ); ?>" <?php selected( $afip_options[ 'default_post_format' ], esc_attr( $post_format ) ); ?>><?php echo esc_html( ucwords( $post_format ) ); ?></option>
+			<?php
+						}
+					}
+				}
+		?>
 		</select>
 		<?php
 	}
@@ -169,15 +198,28 @@ class Automatic_Featured_Image_Posts_Foghlaim {
 	 * @return array of validated options that we've confirmed for storing
 	 */
 	public function validate_options( $input ) {
+		global $_wp_theme_features;
 		$valid_post_status_options = array( 'draft', 'publish', 'private' );
 		$valid_post_type_options = get_post_types( array( '_builtin' => false ) );
 		$valid_post_type_options[] = 'post';
+		$valid_post_format_options = array( 'standard' );
 
-		if( ! in_array( $input[ 'default_post_status' ], $valid_post_status_options ) )
+		if ( isset( $_wp_theme_features[ 'post-formats' ] ) ) {
+			foreach ( $_wp_theme_features[ 'post-formats' ] as $post_format_array ) {
+				foreach ( $post_format_array as $post_format ) {
+					$valid_post_format_options[] = $post_format;
+				}
+			}
+		}
+
+		if ( ! in_array( $input[ 'default_post_status' ], $valid_post_status_options ) )
 			$input[ 'default_post_status' ] = 'draft';
 
-		if( ! in_array( $input[ 'default_post_type' ], $valid_post_type_options ) )
+		if ( ! in_array( $input[ 'default_post_type' ], $valid_post_type_options ) )
 			$input[ 'default_post_type' ] = 'post';
+
+		if ( ! in_array( $input[ 'default_post_format' ], $valid_post_format_options ) )
+			$input[ 'default_post_format' ] = 'standard';
 
 		return $input;
 	}
@@ -245,6 +287,9 @@ class Automatic_Featured_Image_Posts_Foghlaim {
 			'post_category' => $new_post_category,
 			'post_type' => $afip_options[ 'default_post_type' ],
 		));
+
+		if ( isset( $afip_options[ 'default_post_format' ] ) && 'standard' != $afip_options[ 'default_post_format' ] )
+			set_post_format( $new_post_id, $afip_options[ 'default_post_format' ] );
 
 		/*  Assign the featured image */
 		update_post_meta( $new_post_id, '_thumbnail_id', $post_id );
