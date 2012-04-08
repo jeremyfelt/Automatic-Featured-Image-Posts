@@ -3,7 +3,7 @@
 Plugin Name: Automatic Featured Image Posts
 Plugin URI: http://www.jeremyfelt.com/wordpress/plugins/automatic-featured-image-posts/
 Description: Automatically creates a new post with an assigned featured image from every image upload.
-Version: 0.4
+Version: 0.5
 Author: Jeremy Felt
 Author URI: http://www.jeremyfelt.com
 License: GPL2
@@ -55,10 +55,15 @@ class Automatic_Featured_Image_Posts_Foghlaim {
 		else
 			$afip_options[ 'default_post_type' ] = $current_afip_options[ 'default_post_type' ];
 
+		if ( empty( $current_afip_options[ 'default_post_format' ] ) )
+			$afip_options[ 'default_post_format' ] = 'standard';
+		else
+			$afip_options[ 'default_post_format' ] = $current_afip_options[ 'default_post_format' ];
+
 		update_option( 'afip_options', $afip_options );
 
-		if ( '0.4' != get_option( 'afip_upgrade_check' ) )
-			update_option( 'afip_upgrade_check', '0.4' );
+		if ( '0.5' != get_option( 'afip_upgrade_check' ) )
+			update_option( 'afip_upgrade_check', '0.5' );
 	}
 
 	/**
@@ -66,7 +71,7 @@ class Automatic_Featured_Image_Posts_Foghlaim {
 	 * running through activation accordingly.
 	 */
 	public function upgrade_check() {
-		if ( '0.4' != get_option( 'afip_upgrade_check' ) )
+		if ( '0.5' != get_option( 'afip_upgrade_check' ) )
 			$this->activate();
 	}
 
@@ -124,12 +129,8 @@ class Automatic_Featured_Image_Posts_Foghlaim {
 		add_settings_section( 'afip_section_main', '', array( $this, 'output_section_text' ), 'afip' );
 		add_settings_field( 'afip_default_post_status', __( 'Default Post Status:', 'automatic-featured-image-posts' ) , array( $this, 'output_default_post_status_text' ), 'afip', 'afip_section_main' );
 		add_settings_field( 'afip_default_post_type', __( 'Default Post Type:', 'automatic-featured-image-posts' ), array( $this, 'output_default_post_type_text' ), 'afip', 'afip_section_main' );
-
 		if ( current_theme_supports( 'post-formats' ) )
 			add_settings_field( 'afip_default_post_format', __( 'Default Post Format:', 'automatic-featured-image-posts' ), array( $this, 'output_default_post_format_text' ), 'afip', 'afip_section_main' );
-
-		add_settings_field( 'afip_default_image_placement', __( 'Default Image Placement:', 'automatic-featured-image-posts' ), array( $this, 'output_default_image_placement_text' ), 'afip', 'afip_section_main' );
-
 	}
 
 	/**
@@ -198,19 +199,6 @@ class Automatic_Featured_Image_Posts_Foghlaim {
 		<?php
 	}
 
-	public function output_default_image_placement_text() {
-		$afip_options = get_option( 'afip_options' );
-
-		if ( ! isset( $afip_options[ 'default_image_placement' ] ) )
-			$afip_options[ 'default_image_placement' ] = 'featured';
-		?>
-		<select id="afip_default_image_placement" name="afip_options[default_image_placement]">
-			<option value="featured" <?php selected( $afip_options[ 'default_image_placement' ], 'featured' ); ?>>Featured Image</option>
-			<option value="content" <?php selected( $afip_options[ 'default_image_placement' ], 'content' ); ?>>Post Content</option>
-		</select>
-		<?php
-	}
-
 	/**
 	 * Validation of a drop down. Hmm. Well, if it isn't on our list, we'll force it onto our list.
 	 *
@@ -240,9 +228,6 @@ class Automatic_Featured_Image_Posts_Foghlaim {
 
 		if ( ! in_array( $input[ 'default_post_format' ], $valid_post_format_options ) )
 			$input[ 'default_post_format' ] = 'standard';
-
-		if ( ! in_array( $input[ 'default_image_placement' ], array( 'featured', 'content' ) ) )
-			$input[ 'default_image_placement' ] = 'featured';
 
 		return $input;
 	}
@@ -301,11 +286,7 @@ class Automatic_Featured_Image_Posts_Foghlaim {
 		$new_post_date = date( 'Y-m-d H:i:s' );
 		$current_user = wp_get_current_user();
 
-		/* Add content, update attachment with post parent post_status = inherit, post_parent = ID*/
-		if ( isset( $afip_options[ 'default_image_placement' ] ) && 'content' == $afip_options[ 'default_image_placement' ] )
-			$new_post_content = wp_get_attachment_image( $post_id, 'medium' );
-		else
-			$new_post_content = '';
+		$new_post_content = '';
 
 		$new_post_id = wp_insert_post( array(
 			'post_title' => get_the_title( $post_id ),
@@ -320,10 +301,7 @@ class Automatic_Featured_Image_Posts_Foghlaim {
 		if ( isset( $afip_options[ 'default_post_format' ] ) && 'standard' != $afip_options[ 'default_post_format' ] )
 			set_post_format( $new_post_id, $afip_options[ 'default_post_format' ] );
 
-		/* Add image as a featured image to the new post */
-		if ( isset( $afip_options[ 'default_image_placement' ] ) && 'featured' == $afip_options[ 'default_image_placement' ] )
-			update_post_meta( $new_post_id, '_thumbnail_id', $post_id );
-
+		update_post_meta( $new_post_id, '_thumbnail_id', $post_id );
 		wp_update_post( array( 'ID' => $post_id, 'post_parent' => $new_post_id, 'post_status' => 'inherit' ) );
 	}
 }
