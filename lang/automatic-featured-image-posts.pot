@@ -1,55 +1,83 @@
-# Copyright (C) 2010 Automatic Featured Image Posts
+# Copyright (C) 2012 Automatic Featured Image Posts
 # This file is distributed under the same license as the Automatic Featured Image Posts package.
 msgid ""
 msgstr ""
-"Project-Id-Version: Automatic Featured Image Posts 0.1\n"
+"Project-Id-Version: Automatic Featured Image Posts 0.5\n"
 "Report-Msgid-Bugs-To: http://wordpress.org/tag/automatic-featured-image-"
 "posts\n"
-"POT-Creation-Date: 2011-12-10 01:10:54+00:00\n"
+"POT-Creation-Date: 2012-04-08 01:48:41+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"PO-Revision-Date: 2010-MO-DA HO:MI+ZONE\n"
+"PO-Revision-Date: 2012-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 
-#: automatic-featured-image-posts.php:60
+#: automatic-featured-image-posts.php:92
 msgid "Auto Image Posts"
 msgstr ""
 
-#. #-#-#-#-#  plugin.pot (Automatic Featured Image Posts 0.1)  #-#-#-#-#
+#. #-#-#-#-#  plugin.pot (Automatic Featured Image Posts 0.5)  #-#-#-#-#
 #. Plugin Name of the plugin/theme
-#: automatic-featured-image-posts.php:67
+#: automatic-featured-image-posts.php:107
 msgid "Automatic Featured Image Posts"
 msgstr ""
 
-#: automatic-featured-image-posts.php:68
+#: automatic-featured-image-posts.php:108
 msgid "Overview"
 msgstr ""
 
-#: automatic-featured-image-posts.php:69
+#: automatic-featured-image-posts.php:109
 msgid ""
-"In this first release, the only setting available is for\r\n"
-"   \t\t\twhat status the automatically created post will have after you "
-"upload an image. By default it is set to publish,\r\n"
-"   \t\t\twhich means as soon as you upload a new image, a new post will "
-"appear. Options for draft and private are also\r\n"
-"   \t\t\tavailable, though it should be noted that using using bulk edit in "
-"WordPress to change the post status from draft\r\n"
-"   \t\t\tto publish seems to change the post date for all selected posts to "
-"your current time. You may want to use quick\r\n"
-"   \t\t\tedit or edit instead when changing statuses."
+"The default <strong>post status</strong> is set to <strong>publish</strong> "
+"by default. This means that as soon as you upload a new image through any "
+"interface in WordPress, a new post will appear with that image assigned as "
+"the featured image."
 msgstr ""
 
-#: automatic-featured-image-posts.php:81
+#: automatic-featured-image-posts.php:110
+msgid ""
+"The default <strong>post type</strong> is set to the most familiar WordPress "
+"post type, <strong>Post</strong>. Other custom post types registered by your "
+"theme and installed plugins have been automatically detected and will also "
+"appear in the drop down menu as options. Note that these custom post types "
+"should have support for featured images, or they may not appear as you would "
+"like."
+msgstr ""
+
+#: automatic-featured-image-posts.php:111
+msgid ""
+"Your theme supports <strong>post formats</strong>, so an extra option is "
+"available to set which format an automatically created post will be set to. "
+"The default is <strong>Standard</strong>. Note that the final display will "
+"depend on what is provided by your theme."
+msgstr ""
+
+#: automatic-featured-image-posts.php:112
+msgid ""
+"<strong>PLEASE NOTE:</strong> Your current theme does <strong>NOT</strong> "
+"support featured images and thus this plugin will be severely limited. "
+"Images will be attached to posts after upload, but it may be impossible to "
+"see this until featured image support is added to your theme."
+msgstr ""
+
+#: automatic-featured-image-posts.php:118
 msgid "Save Changes"
 msgstr ""
 
-#: automatic-featured-image-posts.php:92
+#: automatic-featured-image-posts.php:130
 msgid "Default Post Status:"
 msgstr ""
 
-#: automatic-featured-image-posts.php:147
+#: automatic-featured-image-posts.php:131
+msgid "Default Post Type:"
+msgstr ""
+
+#: automatic-featured-image-posts.php:133
+msgid "Default Post Format:"
+msgstr ""
+
+#: automatic-featured-image-posts.php:252
 msgid "Settings"
 msgstr ""
 
