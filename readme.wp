@@ -2,16 +2,16 @@
 
 Contributors: jeremyfelt
 Donate link: http://www.jeremyfelt.com/wordpress/plugins/automatic-featured-image-posts/
-Tags: featured image, media, photo, pictures, posts, photoblog, upload, automatic, custom post type, thumbnail
+Tags: featured image, media, photo, pictures, posts, photoblog, upload, automatic, custom post type, thumbnail, post thumbnails, post formats
 Requires at least: 3.2.1
-Tested up to: 3.3.1
-Stable tag: 0.4
+Tested up to: 3.4
+Stable tag: 0.5
 
 Automatic Featured Image Posts creates a new post with a Featured Image every time an image is uploaded.
 
 == Description ==
 
-Automatic Featured Image Posts creates a new post with a Featured Image every time an image is uploaded. Through the plugin settings page, you can set the image to publish and assign itself to one of your other existing custom post types.
+Automatic Featured Image Posts creates a new post with a Featured Image every time an image is uploaded. Through the plugin settings page, you can set the image to publish and assign itself to one of your other existing custom post types and/or post formats.
 
 The imagined use case is to make managing a large number of photos through WordPress a little more interesting and a little more fun.
 
@@ -23,62 +23,70 @@ Settings are available for:
 *  Default Post Type
     *  Default is the WordPress post.
     *  Can choose any custom post type registered in your WordPress installation.
+*  Default Post Format
+    *  Default is 'standard', which equates to none.
+    *  Other options are provided if registered by your theme
 
 == Installation ==
 
-1. Upload 'automatic-featured-image-posts' to your plugin directory, usually 'wp-content/plugins/', or install automatically via your WordPress admin page.
-1. Activate Automatic Featured Image Posts in your plugin menu.
-1. If you'd like to change the default post status or post type, configure the plugin using the Auto Image Posts menu under Settings in your admin page. (*See Screenshot*)
+1.  Upload 'automatic-featured-image-posts' to your plugin directory, usually 'wp-content/plugins/', or install automatically via your WordPress admin page.
+1.  Activate Automatic Featured Image Posts in your plugin menu.
+1.  If you'd like to change the default post status or post type, configure the plugin using the Auto Image Posts menu under Settings in your admin page. (*See Screenshot*)
 
 That's it!
 
 == Frequently Asked Questions ==
 
-= Why aren't there any FAQs? =
+= Why don't I see any of my images? The posts were created. =
 
-*  Because nobody has asked a question yet.
+*  More than likely the installed theme does not support featured images (post thumbnails). If this is the case, images are assigned to posts in the background, but there is no interface to display or edit them.
+*  A warning will appear on your Automatic Featured Image Posts settings screen if it is detected that featured images are not enabled.
 
-= What's next? =
+= Can you put the images in post content instead of setting them as a featured image? =
 
-*  I solved my use case, so I'm looking for ideas from you. What options do you want to configure?
+*  At this time, no. I spent quite a bit of time exploring a good way to do this, and I'm definitely open to it in the future, but it doesn't appear to be realistic right now. There are so many options for placing an image in your content, I'd hate to think I'd pick the perfect default.
 
 == Screenshots ==
 
 1. An overview of the Automatic Featured Image Posts settings screen.
 
 == Changelog ==
-= 0.4 =
 
-* Switched to use add_attachment action hook, possible avoidance of issues that I couldn't confirm, but could exist, in using wp_update_attachment_metadata
-* Code cleanup, formatting, standards
+= 0.5 =
+*  Add support for Post Formats. If your theme supports it, you can now select to publish as an image, aside, etc...
+*  Make sure the attachment is also adhering to core parent/inherit standards after media is uploaded.
+*  Add a warning for themes that do not support featured images.
+*  Code cleanup, specifically moving everything into its own class to be a good global namespace citizen.
+
+= 0.4 =
+*  Switched to use add_attachment action hook, possible avoidance of issues that I couldn't confirm, but could exist, in using wp_update_attachment_metadata
+*  Code cleanup, formatting, standards
 
 = 0.3 =
-
-* An option to assign the posts created through Automatic Featured Image Posts to any of your existing custom post types has been added.
-* General code cleanup & refactoring.
-* Language file update to match new settings.
+*  An option to assign the posts created through Automatic Featured Image Posts to any of your existing custom post types has been added.
+*  General code cleanup & refactoring.
+*  Language file update to match new settings.
 
 = 0.2 =
-
-* Images uploaded through the 'edit post' screen are now assigned the categories of that post. Requested by jackthalad. Will be a configurable option in next release.
+*  Images uploaded through the 'edit post' screen are now assigned the categories of that post. Requested by jackthalad. Will be a configurable option in next release.
 
 = 0.1 =
+*  In which a plugin begins its life.
 
-* In which a plugin begins its life.
 
-== Upgrade Notice ===
+== Upgrade Notice ==
+
+= 0.5 =
+*  NEW - Option to assign automatically created posts to registered post formats.
+
 = 0.4 =
-
-* Upgrade not required, but things are handled a little differently behind the scenes.
+*  Upgrade not required, but things are handled a little differently behind the scenes.
 
 = 0.3 =
-
-* NEW - Option to assign posts created through Automatic Featured Image Posts to any of your existing custom post types.
+*  NEW - Option to assign posts created through Automatic Featured Image Posts to any of your existing custom post types.
 
 = 0.2 =
-
-* Posts created by images uploaded through 'edit post' inherit the category of that existing post.
+*  Posts created by images uploaded through 'edit post' inherit the category of that existing post.
 
 = 0.1 =
-
-* Initial installation.
+*  Initial installation.
