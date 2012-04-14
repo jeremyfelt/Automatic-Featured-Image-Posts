@@ -4,7 +4,7 @@
 * Tags: featured image, media, photo, pictures, posts, photoblog, upload, automatic, custom post type, thumbnail, post thumbnails, post formats
 * Requires at least: 3.2.1
 * Tested up to: 3.4
-* Stable tag: 0.5
+* Stable tag: 0.6
 
 > Automatic Featured Image Posts creates a new post with a Featured Image every time an image is uploaded.
 
@@ -40,12 +40,16 @@ That's it!
 * A warning will appear on your Automatic Featured Image Posts settings screen if it is detected that featured images are not enabled.
 
 ###Can you put the images in post content instead of setting them as a featured image? =
-* At this time, no. I spent quite a bit of time exploring a good way to do this, and I'm definitely open to it in the future, but it doesn't appear to be realistic right now. There are so many options for placing an image in your content, I'd hate to think I'd pick the perfect default.
+*  I can't, but you can with the included filters.
+    * Check out the [writeup on the new filters] (http://www.jeremyfelt.com/wordpress/2012/04/14/filters-in-aut…ed-image-posts "Filters in Automatic Featured Image Posts")
 
 ## Screenshots
 1. An overview of the Automatic Featured Image Posts settings screen.
 
 ## Changelog
+
+### 0.6
+* Add filters to allow themes and plugins to change the post title, categories, and content before creation
 
 ### 0.5
 * Add support for Post Formats. If your theme supports it, you can now select to publish as an image, aside, etc...
@@ -69,6 +73,9 @@ That's it!
 * In which a plugin begins its life.
 
 ## Upgrade Notice
+
+###0.6
+* NEW - Filters added for post title, categories, and content.
 
 ### 0.5
 * NEW - Option to assign automatically created posts to registered post formats.

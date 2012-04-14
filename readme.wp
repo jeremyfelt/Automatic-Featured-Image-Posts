@@ -5,7 +5,7 @@ Donate link: http://www.jeremyfelt.com/wordpress/plugins/automatic-featured-imag
 Tags: featured image, media, photo, pictures, posts, photoblog, upload, automatic, custom post type, thumbnail, post thumbnails, post formats
 Requires at least: 3.2.1
 Tested up to: 3.4
-Stable tag: 0.5
+Stable tag: 0.6
 
 Automatic Featured Image Posts creates a new post with a Featured Image every time an image is uploaded.
 
@@ -27,6 +27,12 @@ Settings are available for:
     *  Default is 'standard', which equates to none.
     *  Other options are provided if registered by your theme
 
+Filters are available for:
+
+*  'afip_new_post_title' = Allow other functions or themes to change the post title before creation.
+*  'afip_new_post_category' = Allow other functions or themes to change the post categories before creation.
+*  'afip_new_post_content' = Allow other functions or themes to change the post content before creation.
+
 == Installation ==
 
 1.  Upload 'automatic-featured-image-posts' to your plugin directory, usually 'wp-content/plugins/', or install automatically via your WordPress admin page.
@@ -44,13 +50,17 @@ That's it!
 
 = Can you put the images in post content instead of setting them as a featured image? =
 
-*  At this time, no. I spent quite a bit of time exploring a good way to do this, and I'm definitely open to it in the future, but it doesn't appear to be realistic right now. There are so many options for placing an image in your content, I'd hate to think I'd pick the perfect default.
+*  I can't, but you can with the included filters.
+    * Check out the [writeup on the new filters] (http://www.jeremyfelt.com/wordpress/2012/04/14/filters-in-aut…ed-image-posts "Filters in Automatic Featured Image Posts")
 
 == Screenshots ==
 
 1. An overview of the Automatic Featured Image Posts settings screen.
 
 == Changelog ==
+
+= 0.6 =
+*  Add filters to allow themes and plugins to change the post title, categories, and content before creation
 
 = 0.5 =
 *  Add support for Post Formats. If your theme supports it, you can now select to publish as an image, aside, etc...
@@ -75,6 +85,9 @@ That's it!
 
 
 == Upgrade Notice ==
+
+= 0.6 =
+*  NEW - Filters added for post title, categories, and content.
 
 = 0.5 =
 *  NEW - Option to assign automatically created posts to registered post formats.
