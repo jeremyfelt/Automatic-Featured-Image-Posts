@@ -26,6 +26,12 @@ Settings are available for:
     *  Default is 'standard', which equates to none.
     *  Other options are provided if registered by your theme
 
+Filters are available for:
+
+* 'afip_new_post_title' = Allow other functions or themes to change the post title before creation.
+* 'afip_new_post_category' = Allow other functions or themes to change the post categories before creation.
+* 'afip_new_post_content' = Allow other functions or themes to change the post content before creation.
+
 ## Installation
 1. Upload 'automatic-featured-image-posts' to your plugin directory, usually 'wp-content/plugins/', or install automatically via your WordPress admin page.
 1. Activate Automatic Featured Image Posts in your plugin menu.
