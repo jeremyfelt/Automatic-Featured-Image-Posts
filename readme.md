@@ -4,7 +4,7 @@
 * Tags: featured image, media, photo, pictures, posts, photoblog, upload, automatic, custom post type, thumbnail, post thumbnails, post formats
 * Requires at least: 3.2.1
 * Tested up to: 3.4
-* Stable tag: 0.6
+* Stable tag: 0.7
 
 > Automatic Featured Image Posts creates a new post with a Featured Image every time an image is uploaded.
 
@@ -54,6 +54,9 @@ That's it!
 
 ## Changelog
 
+### 0.7
+* Fix a couple bugs with saving options when post formats aren't yet enabled.
+
 ### 0.6
 * Add filters to allow themes and plugins to change the post title, categories, and content before creation
 
@@ -80,7 +83,10 @@ That's it!
 
 ## Upgrade Notice
 
-###0.6
+### 0.7
+* Bug fixes when saving options without post formats enabled
+
+### 0.6
 * NEW - Filters added for post title, categories, and content.
 
 ### 0.5
