@@ -45,20 +45,20 @@ class Automatic_Featured_Image_Posts_Foghlaim {
 		$current_afip_options = get_option( 'afip_options' );
 		$afip_options = array();
 
-		if ( empty( $current_afip_options[ 'default_post_status' ] ) )
-			$afip_options[ 'default_post_status' ] = 'publish';
+		if ( empty( $current_afip_options['default_post_status'] ) )
+			$afip_options['default_post_status'] = 'publish';
 		else
-			$afip_options[ 'default_post_status' ] = $current_afip_options[ 'default_post_status' ];
+			$afip_options['default_post_status'] = $current_afip_options['default_post_status'];
 
-		if ( empty( $current_afip_options[ 'default_post_type' ] ) )
-			$afip_options[ 'default_post_type' ] = 'post';
+		if ( empty( $current_afip_options['default_post_type'] ) )
+			$afip_options['default_post_type'] = 'post';
 		else
-			$afip_options[ 'default_post_type' ] = $current_afip_options[ 'default_post_type' ];
+			$afip_options['default_post_type'] = $current_afip_options['default_post_type'];
 
-		if ( empty( $current_afip_options[ 'default_post_format' ] ) )
-			$afip_options[ 'default_post_format' ] = 'standard';
+		if ( empty( $current_afip_options['default_post_format'] ) )
+			$afip_options['default_post_format'] = 'standard';
 		else
-			$afip_options[ 'default_post_format' ] = $current_afip_options[ 'default_post_format' ];
+			$afip_options['default_post_format'] = $current_afip_options['default_post_format'];
 
 		update_option( 'afip_options', $afip_options );
 
@@ -146,13 +146,13 @@ class Automatic_Featured_Image_Posts_Foghlaim {
 		$afip_options = get_option( 'afip_options' );
 		$all_post_types = get_post_types( array( '_builtin' => false ) );
 
-		if ( ! isset( $afip_options[ 'default_post_type' ] ) )
-			$afip_options[ 'default_post_type' ] = 'post';
+		if ( ! isset( $afip_options['default_post_type'] ) )
+			$afip_options['default_post_type'] = 'post';
 		?>
 		<select id="afip-default-post-type" name="afip_options[default_post_type]">
-			<option value="post" <?php selected( $afip_options[ 'default_post_type' ], 'post' ); ?>>Post</option>
+			<option value="post" <?php selected( $afip_options['default_post_type'], 'post' ); ?>>Post</option>
 		<?php foreach( $all_post_types as $p ) : ?>
-			<option value="<?php echo esc_attr( $p ); ?>" <?php selected( $afip_options[ 'default_post_type' ], esc_attr( $p ) ); ?>><?php echo esc_html( $p ); ?></option>
+			<option value="<?php echo esc_attr( $p ); ?>" <?php selected( $afip_options['default_post_type'], esc_attr( $p ) ); ?>><?php echo esc_html( $p ); ?></option>
 		<?php endforeach; ?>
 		</select>
 		<?php
@@ -165,13 +165,13 @@ class Automatic_Featured_Image_Posts_Foghlaim {
 	public function output_default_post_status_text() {
 		$afip_options = get_option( 'afip_options' );
 
-		if ( ! isset( $afip_options[ 'default_post_status' ] ) )
-			$afip_options[ 'default_post_status' ] = 'draft';
+		if ( ! isset( $afip_options['default_post_status'] ) )
+			$afip_options['default_post_status'] = 'draft';
 		?>
 		<select id="afip_default_post_status" name="afip_options[default_post_status]">
-			<option value="draft" <?php selected( $afip_options[ 'default_post_status' ], 'draft' ); ?>>Draft</option>
-			<option value="publish" <?php selected( $afip_options[ 'default_post_status' ], 'publish' ); ?>>Publish</option>
-			<option value="private" <?php selected( $afip_options[ 'default_post_status' ], 'private' ); ?>>Private</option>
+			<option value="draft" <?php selected( $afip_options['default_post_status'], 'draft' ); ?>>Draft</option>
+			<option value="publish" <?php selected( $afip_options['default_post_status'], 'publish' ); ?>>Publish</option>
+			<option value="private" <?php selected( $afip_options['default_post_status'], 'private' ); ?>>Private</option>
 		</select>
 		<?php
 	}
@@ -184,27 +184,27 @@ class Automatic_Featured_Image_Posts_Foghlaim {
 		global $_wp_theme_features;
 		$afip_options = get_option( 'afip_options' );
 
-		if ( ! isset( $afip_options[ 'default_post_format' ] ) )
-			$afip_options[ 'default_post_format' ] = 'standard';
+		if ( ! isset( $afip_options['default_post_format'] ) )
+			$afip_options['default_post_format'] = 'standard';
 		?>
 		<select id="afip_default_post_format" name="afip_options[default_post_format]">
 			<?php
-				if ( isset( $_wp_theme_features[ 'post-formats' ] ) && is_array( $_wp_theme_features[ 'post-formats' ] ) ) {
-					foreach ( $_wp_theme_features[ 'post-formats' ] as $post_format_array ){
+				if ( isset( $_wp_theme_features['post-formats'] ) && is_array( $_wp_theme_features['post-formats'] ) ) {
+					foreach ( $_wp_theme_features['post-formats'] as $post_format_array ){
 						foreach ( $post_format_array as $post_format ) {
 							?>
-							<option value="<?php echo esc_attr( $post_format ); ?>" <?php selected( $afip_options[ 'default_post_format' ], esc_attr( $post_format ) ); ?>><?php echo esc_html( ucwords( $post_format ) ); ?></option>
+							<option value="<?php echo esc_attr( $post_format ); ?>" <?php selected( $afip_options['default_post_format'], esc_attr( $post_format ) ); ?>><?php echo esc_html( ucwords( $post_format ) ); ?></option>
 							<?php
 						}
 						if ( ! in_array( 'standard', $post_format_array ) ) {
 							?>
-							<option value="standard" <?php selected( $afip_options[ 'default_post_format' ], 'standard' ); ?>>Standard</option>
+							<option value="standard" <?php selected( $afip_options['default_post_format'], 'standard' ); ?>>Standard</option>
 							<?php
 						}
 					}
 				} else {
 					?>
-					<option value="standard" <?php selected( $afip_options[ 'default_post_format' ], 'standard' ); ?>>Standard</option>
+					<option value="standard" <?php selected( $afip_options['default_post_format'], 'standard' ); ?>>Standard</option>
 					<?php
 				}
 		?>
@@ -225,22 +225,22 @@ class Automatic_Featured_Image_Posts_Foghlaim {
 		$valid_post_type_options[] = 'post';
 		$valid_post_format_options = array( 'standard' );
 
-		if ( isset( $_wp_theme_features[ 'post-formats' ] ) && is_array( $_wp_theme_features[ 'post-formats' ] ) ) {
-			foreach ( $_wp_theme_features[ 'post-formats' ] as $post_format_array ) {
+		if ( isset( $_wp_theme_features['post-formats'] ) && is_array( $_wp_theme_features['post-formats'] ) ) {
+			foreach ( $_wp_theme_features['post-formats'] as $post_format_array ) {
 				foreach ( $post_format_array as $post_format ) {
 					$valid_post_format_options[] = $post_format;
 				}
 			}
 		}
 
-		if ( ! in_array( $input[ 'default_post_status' ], $valid_post_status_options ) )
-			$input[ 'default_post_status' ] = 'draft';
+		if ( ! in_array( $input['default_post_status'], $valid_post_status_options ) )
+			$input['default_post_status'] = 'draft';
 
-		if ( ! in_array( $input[ 'default_post_type' ], $valid_post_type_options ) )
-			$input[ 'default_post_type' ] = 'post';
+		if ( ! in_array( $input['default_post_type'], $valid_post_type_options ) )
+			$input['default_post_type'] = 'post';
 
-		if ( isset( $input[ 'default_post_format' ] ) && ! in_array( $input[ 'default_post_format' ], $valid_post_format_options ) )
-			$input[ 'default_post_format' ] = 'standard';
+		if ( isset( $input['default_post_format'] ) && ! in_array( $input['default_post_format'], $valid_post_format_options ) )
+			$input['default_post_format'] = 'standard';
 
 		return $input;
 	}
@@ -311,15 +311,15 @@ class Automatic_Featured_Image_Posts_Foghlaim {
 		$new_post_id = wp_insert_post( array(
 			'post_title' => $new_post_title,
 			'post_content' => $new_post_content,
-			'post_status' => $afip_options[ 'default_post_status' ],
+			'post_status' => $afip_options['default_post_status'],
 			'post_author' => $current_user->ID,
 			'post_date' => $new_post_date,
 			'post_category' => $new_post_category,
-			'post_type' => $afip_options[ 'default_post_type' ],
+			'post_type' => $afip_options['default_post_type'],
 		));
 
-		if ( isset( $afip_options[ 'default_post_format' ] ) && 'standard' != $afip_options[ 'default_post_format' ] )
-			set_post_format( $new_post_id, $afip_options[ 'default_post_format' ] );
+		if ( isset( $afip_options['default_post_format'] ) && 'standard' != $afip_options['default_post_format'] )
+			set_post_format( $new_post_id, $afip_options['default_post_format'] );
 
 		update_post_meta( $new_post_id, '_thumbnail_id', $post_id );
 		wp_update_post( array( 'ID' => $post_id, 'post_parent' => $new_post_id, 'post_status' => 'inherit' ) );
