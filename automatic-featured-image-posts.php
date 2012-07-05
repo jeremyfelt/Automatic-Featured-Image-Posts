@@ -151,7 +151,9 @@ class Automatic_Featured_Image_Posts_Foghlaim {
 		?>
 		<select id="afip-default-post-type" name="afip_options[default_post_type]">
 			<option value="post" <?php selected( $afip_options[ 'default_post_type' ], 'post' ); ?>>Post</option>
-		<?php foreach( $all_post_types as $p ) : ?><option value="<?php echo esc_attr( $p ); ?>" <?php selected( $afip_options[ 'default_post_type' ], esc_attr( $p ) ); ?>><?php echo esc_html( $p ); ?></option><?php endforeach; ?>
+		<?php foreach( $all_post_types as $p ) : ?>
+			<option value="<?php echo esc_attr( $p ); ?>" <?php selected( $afip_options[ 'default_post_type' ], esc_attr( $p ) ); ?>><?php echo esc_html( $p ); ?></option>
+		<?php endforeach; ?>
 		</select>
 		<?php
 	}
