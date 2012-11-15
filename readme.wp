@@ -4,8 +4,8 @@ Contributors: jeremyfelt
 Donate link: http://jeremyfelt.com/wordpress/plugins/automatic-featured-image-posts/
 Tags: featured image, media, photo, pictures, posts, photoblog, upload, automatic, custom post type, thumbnail, post thumbnails, post formats
 Requires at least: 3.2.1
-Tested up to: 3.4
-Stable tag: 0.7
+Tested up to: 3.5
+Stable tag: 0.8
 
 Automatic Featured Image Posts creates a new post with a Featured Image every time an image is uploaded.
 
