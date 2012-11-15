@@ -34,6 +34,8 @@ Filters are available for:
 *  'afip_new_post_content' = Allow other functions or themes to change the post content before creation.
 *  'afip_new_post_date' = Allow other functions or themes to change the post date before creation
 
+Feel free to [fork and/or contribute on GitHub](https://github.com/jeremyfelt/Automatic-Featured-Image-Posts)
+
 == Installation ==
 
 1.  Upload 'automatic-featured-image-posts' to your plugin directory, usually 'wp-content/plugins/', or install automatically via your WordPress admin page.
