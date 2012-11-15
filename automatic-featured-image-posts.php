@@ -5,7 +5,7 @@ Plugin URI: http://jeremyfelt.com/wordpress/plugins/automatic-featured-image-pos
 Description: Automatically creates a new post with an assigned featured image from every image upload.
 Version: 0.8
 Author: Jeremy Felt
-Author URI: http://www.jeremyfelt.com
+Author URI: http://jeremyfelt.com
 License: GPL2
 */
 
