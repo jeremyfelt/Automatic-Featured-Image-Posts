@@ -59,6 +59,12 @@ That's it!
 
 == Changelog ==
 
+= 0.8 =
+* Compatibility check with upcoming WordPress 3.5, all is a go!
+* Fix post time bug to account for WordPress timezone setting. props Matthew Harris
+* Add filter to new post date so that it can be modified.
+* General code style cleaning
+
 = 0.7 =
 * Fix a couple bugs with saving options when post formats aren't yet enabled.
 
@@ -88,6 +94,9 @@ That's it!
 
 
 == Upgrade Notice ==
+
+= 0.8 =
+* Bug fix for new post's date.
 
 = 0.7 =
 * Bug fixes when saving options while post formats are not enabled

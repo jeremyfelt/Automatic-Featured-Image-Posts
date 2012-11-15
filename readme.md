@@ -3,8 +3,8 @@
 * Donate link: http://jeremyfelt.com/wordpress/plugins/automatic-featured-image-posts/
 * Tags: featured image, media, photo, pictures, posts, photoblog, upload, automatic, custom post type, thumbnail, post thumbnails, post formats
 * Requires at least: 3.2.1
-* Tested up to: 3.4
-* Stable tag: 0.7
+* Tested up to: 3.5
+* Stable tag: 0.8
 
 > Automatic Featured Image Posts creates a new post with a Featured Image every time an image is uploaded.
 
@@ -31,6 +31,7 @@ Filters are available for:
 * 'afip_new_post_title' = Allow other functions or themes to change the post title before creation.
 * 'afip_new_post_category' = Allow other functions or themes to change the post categories before creation.
 * 'afip_new_post_content' = Allow other functions or themes to change the post content before creation.
+* 'afip_new_post_date' = Allow other functions or themes to change the post date before creation.
 
 ## Installation
 1. Upload 'automatic-featured-image-posts' to your plugin directory, usually 'wp-content/plugins/', or install automatically via your WordPress admin page.
@@ -53,6 +54,12 @@ That's it!
 1. An overview of the Automatic Featured Image Posts settings screen.
 
 ## Changelog
+
+### 0.8
+* Compatibility check with upcoming WordPress 3.5, all is a go!
+* Fix post time bug to account for WordPress timezone setting. props Matthew Harris
+* Add filter to new post date so that it can be modified.
+* General code style cleaning
 
 ### 0.7
 * Fix a couple bugs with saving options when post formats aren't yet enabled.
@@ -83,6 +90,9 @@ That's it!
 
 ## Upgrade Notice
 
+### 0.8
+* Bug fix for new post's date.
+
 ### 0.7
 * Bug fixes when saving options without post formats enabled
 
@@ -101,5 +111,5 @@ That's it!
 ### 0.2
 * Posts created by images uploaded through 'edit post' inherit the category of that existing post.
 
-###0.1
+### 0.1
 * Initial installation.
