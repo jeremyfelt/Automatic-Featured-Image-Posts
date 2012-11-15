@@ -296,8 +296,10 @@ class Automatic_Featured_Image_Posts_Foghlaim {
 		}
 
 		$afip_options = get_option( 'afip_options' );
-		$new_post_date = date( 'Y-m-d H:i:s' );
 		$current_user = wp_get_current_user();
+
+		/* Allow other functions or themes to change the post date before creation. */
+		$new_post_date = apply_filters( 'afip_new_post_date', current_time( 'mysql' ), $post_id );
 
 		/* Allow other functions or themes to change the post title before creation. */
 		$new_post_title = apply_filters( 'afip_new_post_title', get_the_title( $post_id ), $post_id );
