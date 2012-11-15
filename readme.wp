@@ -32,6 +32,7 @@ Filters are available for:
 *  'afip_new_post_title' = Allow other functions or themes to change the post title before creation.
 *  'afip_new_post_category' = Allow other functions or themes to change the post categories before creation.
 *  'afip_new_post_content' = Allow other functions or themes to change the post content before creation.
+*  'afip_new_post_date' = Allow other functions or themes to change the post date before creation
 
 == Installation ==
 
