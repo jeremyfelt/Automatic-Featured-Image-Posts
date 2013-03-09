@@ -33,6 +33,11 @@ Filters are available for:
 *  'afip_new_post_category' = Allow other functions or themes to change the post categories before creation.
 *  'afip_new_post_content' = Allow other functions or themes to change the post content before creation.
 *  'afip_new_post_date' = Allow other functions or themes to change the post date before creation
+* 'afip_post_parent_continue' = Allow creation of a new post when an image is inserted in an existing post.
+
+Actions are available for:
+
+* 'afip_created_post' = Runs after each image load is processed.
 
 Feel free to [fork and/or contribute on GitHub](https://github.com/jeremyfelt/Automatic-Featured-Image-Posts)
 
@@ -53,14 +58,18 @@ That's it!
 
 = Can you put the images in post content instead of setting them as a featured image? =
 
-*  I can't, but you can with the included filters.
-    * Check out the [writeup on the new filters] (http://www.jeremyfelt.com/wordpress/2012/04/14/filters-in-aut…ed-image-posts "Filters in Automatic Featured Image Posts")
+*  I can't, but you can with the included filters. Check out the [writeup on the new filters] (http://jeremyfelt.com/wordpress/2012/04/14/filters-in-automatic-featured-image-posts "Filters in Automatic Featured Image Posts")
 
 == Screenshots ==
 
 1. An overview of the Automatic Featured Image Posts settings screen.
 
 == Changelog ==
+
+= 0.9 =
+* Implement decision to skip images that are uploaded to existing posts
+* Add filter for afip_post_parent_continue to allow overriding this decision
+* Add action afip_created_post to run after each operation
 
 = 0.8 =
 * Compatibility check with upcoming WordPress 3.5, all is a go!
@@ -97,6 +106,10 @@ That's it!
 
 
 == Upgrade Notice ==
+
+= 0.9 =
+
+* New hooks. Now skips images that are uploaded to existing posts.
 
 = 0.8 =
 * Bug fix for new post's date.
