@@ -286,9 +286,22 @@ class Automatic_Featured_Image_Posts_Foghlaim {
 
 		$new_post_category = array();
 
-		/* If this image is being added through an existing post, we want to make sure it inherits
-		 * the category setting from its parent. */
+		// If an image is being uploaded through an existing post, it will have been assigned a post parent
 		if ( $parent_post_id = get_post( $post_id )->post_parent ) {
+
+			/**
+			 * It doesn't make sense to create a new post with a featured image from an image
+			 * uploaded to an existing post. By default, we'll return having done nothing if
+			 * it is detected that this image already has a post parent. The filter allows a
+			 * plugin or theme to make a different decision here.
+			 */
+			if ( false === apply_filters( 'afip_post_parent_continue', false, $post_id, $parent_post_id ) )
+				return;
+
+			/**
+			 * If this image is being added through an existing post, make sure that it inherits
+			 * the category setting from its parent.
+			 */
 			if ( $parent_post_categories = get_the_category( $parent_post_id ) ) {
 				foreach( $parent_post_categories as $post_cat )
 					$new_post_category[] = $post_cat->cat_ID;
