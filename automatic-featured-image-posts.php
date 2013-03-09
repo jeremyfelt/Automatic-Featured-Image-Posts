@@ -338,6 +338,12 @@ class Automatic_Featured_Image_Posts_Foghlaim {
 
 		update_post_meta( $new_post_id, '_thumbnail_id', $post_id );
 		wp_update_post( array( 'ID' => $post_id, 'post_parent' => $new_post_id, 'post_status' => 'inherit' ) );
+
+		/**
+		 * Allow others to hook in and perform an action as each operation is complete. Passes
+		 * $new_post_id from the newly created post and $post_id representing the image.
+		 */
+		do_action( 'afip_created_post', $new_post_id, $post_id );
 	}
 }
 new Automatic_Featured_Image_Posts_Foghlaim();
