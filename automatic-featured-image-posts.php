@@ -3,13 +3,13 @@
 Plugin Name: Automatic Featured Image Posts
 Plugin URI: http://jeremyfelt.com/wordpress/plugins/automatic-featured-image-posts/
 Description: Automatically creates a new post with an assigned featured image from every image upload.
-Version: 0.8
+Version: 0.9
 Author: Jeremy Felt
 Author URI: http://jeremyfelt.com
 License: GPL2
 */
 
-/*  Copyright 2011 Jeremy Felt (email: jeremy.felt@gmail.com)
+/*  Copyright 2011-2013 Jeremy Felt (email: jeremy.felt@gmail.com)
 
 	This program is free software; you can redistribute it and/or modify
 	it under the terms of the GNU General Public License, version 2, as
@@ -286,9 +286,22 @@ class Automatic_Featured_Image_Posts_Foghlaim {
 
 		$new_post_category = array();
 
-		/* If this image is being added through an existing post, we want to make sure it inherits
-		 * the category setting from its parent. */
+		// If an image is being uploaded through an existing post, it will have been assigned a post parent
 		if ( $parent_post_id = get_post( $post_id )->post_parent ) {
+
+			/**
+			 * It doesn't make sense to create a new post with a featured image from an image
+			 * uploaded to an existing post. By default, we'll return having done nothing if
+			 * it is detected that this image already has a post parent. The filter allows a
+			 * plugin or theme to make a different decision here.
+			 */
+			if ( false === apply_filters( 'afip_post_parent_continue', false, $post_id, $parent_post_id ) )
+				return;
+
+			/**
+			 * If this image is being added through an existing post, make sure that it inherits
+			 * the category setting from its parent.
+			 */
 			if ( $parent_post_categories = get_the_category( $parent_post_id ) ) {
 				foreach( $parent_post_categories as $post_cat )
 					$new_post_category[] = $post_cat->cat_ID;
@@ -311,13 +324,13 @@ class Automatic_Featured_Image_Posts_Foghlaim {
 		$new_post_content = apply_filters( 'afip_new_post_content', '', $post_id );
 
 		$new_post_id = wp_insert_post( array(
-			'post_title' => $new_post_title,
-			'post_content' => $new_post_content,
-			'post_status' => $afip_options['default_post_status'],
-			'post_author' => $current_user->ID,
-			'post_date' => $new_post_date,
+			'post_title'    => $new_post_title,
+			'post_content'  => $new_post_content,
+			'post_status'   => $afip_options['default_post_status'],
+			'post_author'   => $current_user->ID,
+			'post_date'     => $new_post_date,
 			'post_category' => $new_post_category,
-			'post_type' => $afip_options['default_post_type'],
+			'post_type'     => $afip_options['default_post_type'],
 		));
 
 		if ( isset( $afip_options['default_post_format'] ) && 'standard' != $afip_options['default_post_format'] )
@@ -325,6 +338,12 @@ class Automatic_Featured_Image_Posts_Foghlaim {
 
 		update_post_meta( $new_post_id, '_thumbnail_id', $post_id );
 		wp_update_post( array( 'ID' => $post_id, 'post_parent' => $new_post_id, 'post_status' => 'inherit' ) );
+
+		/**
+		 * Allow others to hook in and perform an action as each operation is complete. Passes
+		 * $new_post_id from the newly created post and $post_id representing the image.
+		 */
+		do_action( 'afip_created_post', $new_post_id, $post_id );
 	}
 }
 new Automatic_Featured_Image_Posts_Foghlaim();
