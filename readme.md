@@ -29,17 +29,17 @@ After uploading 10, 100, or 1000 pictures from an event or vacation, you and oth
 
 ### Available Filters
 
-* 'afip_new_post_title' = Allow other functions or themes to change the post title before creation.
-* 'afip_new_post_category' = Allow other functions or themes to change the post categories before creation.
-* 'afip_new_post_content' = Allow other functions or themes to change the post content before creation.
-* 'afip_new_post_date' = Allow other functions or themes to change the post date before creation.
-* 'afip_post_parent_continue' = Allow creation of a new post when an image is inserted in an existing post.
-* 'afip_continue_new_post' = Allow other functions or themes to skip creation of a post.
+* `afip_new_post_title` = Allow other functions or themes to change the post title before creation.
+* `afip_new_post_category` = Allow other functions or themes to change the post categories before creation.
+* `afip_new_post_content` = Allow other functions or themes to change the post content before creation.
+* `afip_new_post_date` = Allow other functions or themes to change the post date before creation.
+* `afip_post_parent_continue` = Allow creation of a new post when an image is inserted in an existing post.
+* `afip_continue_new_post` = Allow other functions or themes to skip creation of a post.
 
 ### Available Actions
 
 * `afip_pre_create_post` = Runs immediately before each post is created for an image.
-* 'afip_created_post' = Runs after each image load is processed.
+* `afip_created_post` = Runs after each image load is processed.
 
 ## Installation
 
