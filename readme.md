@@ -6,8 +6,9 @@ Automatic Featured Image Posts creates a new post with a featured image every ti
 * Donate link: http://jeremyfelt.com/wordpress/plugins/automatic-featured-image-posts/
 * Tags: featured image, media, photo, pictures, posts, photoblog, upload, automatic, custom post type, thumbnail, post thumbnails, post formats
 * Requires at least: 3.2.1
-* Tested up to: 3.5
-* Stable tag: 0.9
+* Tested up to: 3.7
+* Stable tag: 1.0
+* License: GPLv2
 
 ## Description
 
@@ -66,6 +67,13 @@ That's it!
 
 ## Changelog
 
+### 1.0
+
+* Confirm compatibility with WordPress 3.7
+* Introduce new action, `afip_pre_create_post`, to allow actions to occur immediately before inserting a new post for an image.
+* Introduce new filter, `afip_continue_new_post`. Return false to skip creation of a post for a specific image.
+* General code cleanup.
+
 ### 0.9
 
 * Implement decision to skip images that are uploaded to existing posts
@@ -114,6 +122,10 @@ That's it!
 * In which a plugin begins its life.
 
 ## Upgrade Notice
+
+### 1.0
+
+* New hooks. Compatible with 3.7.
 
 ### 0.9
 

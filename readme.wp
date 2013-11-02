@@ -4,8 +4,9 @@ Contributors: jeremyfelt
 Donate link: http://jeremyfelt.com/wordpress/plugins/automatic-featured-image-posts/
 Tags: featured image, media, photo, pictures, posts, photoblog, upload, automatic, custom post type, thumbnail, post thumbnails, post formats
 Requires at least: 3.2.1
-Tested up to: 3.5
-Stable tag: 0.8
+Tested up to: 3.7
+Stable tag: 1.0
+License: GPLv2
 
 Automatic Featured Image Posts creates a new post with a Featured Image every time an image is uploaded.
 
@@ -29,17 +30,19 @@ Settings are available for:
 
 Filters are available for:
 
-*  'afip_new_post_title' = Allow other functions or themes to change the post title before creation.
-*  'afip_new_post_category' = Allow other functions or themes to change the post categories before creation.
-*  'afip_new_post_content' = Allow other functions or themes to change the post content before creation.
-*  'afip_new_post_date' = Allow other functions or themes to change the post date before creation
-* 'afip_post_parent_continue' = Allow creation of a new post when an image is inserted in an existing post.
+* `afip_new_post_title` = Allow other functions or themes to change the post title before creation.
+* `afip_new_post_category` = Allow other functions or themes to change the post categories before creation.
+* `afip_new_post_content` = Allow other functions or themes to change the post content before creation.
+* `afip_new_post_date` = Allow other functions or themes to change the post date before creation.
+* `afip_post_parent_continue` = Allow creation of a new post when an image is inserted in an existing post.
+* `afip_continue_new_post` = Allow other functions or themes to skip creation of a post.
 
 Actions are available for:
 
-* 'afip_created_post' = Runs after each image load is processed.
+* `afip_pre_create_post` = Runs immediately before each post is created for an image.
+* `afip_created_post` = Runs after each image load is processed.
 
-Feel free to [fork and/or contribute on GitHub](https://github.com/jeremyfelt/Automatic-Featured-Image-Posts)
+Feel free to [fork, submit issues, and/or contribute on GitHub](https://github.com/jeremyfelt/Automatic-Featured-Image-Posts)
 
 == Installation ==
 
@@ -58,13 +61,19 @@ That's it!
 
 = Can you put the images in post content instead of setting them as a featured image? =
 
-*  I can't, but you can with the included filters. Check out the [writeup on the new filters] (http://jeremyfelt.com/wordpress/2012/04/14/filters-in-automatic-featured-image-posts "Filters in Automatic Featured Image Posts")
+*  I can't, but you can with the included filters. Check out the [writeup on the new filters](http://jeremyfelt.com/wordpress/2012/04/14/filters-in-automatic-featured-image-posts "Filters in Automatic Featured Image Posts")
 
 == Screenshots ==
 
 1. An overview of the Automatic Featured Image Posts settings screen.
 
 == Changelog ==
+
+= 1.0 =
+* Confirm compatibility with WordPress 3.7
+* Introduce new action, `afip_pre_create_post`, to allow actions to occur immediately before inserting a new post for an image.
+* Introduce new filter, `afip_continue_new_post`. Return false to skip creation of a post for a specific image.
+* General code cleanup.
 
 = 0.9 =
 * Implement decision to skip images that are uploaded to existing posts
@@ -107,8 +116,10 @@ That's it!
 
 == Upgrade Notice ==
 
-= 0.9 =
+= 1.0 =
+* New hooks. Compatible with 3.7.
 
+= 0.9 =
 * New hooks. Now skips images that are uploaded to existing posts.
 
 = 0.8 =
