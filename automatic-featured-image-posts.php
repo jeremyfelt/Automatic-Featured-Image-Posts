@@ -298,7 +298,8 @@ class Automatic_Featured_Image_Posts_Foghlaim {
 	 * Pulling out extra EXIF areas now, as we weren't really doing anything extra with that, just relying on the
 	 * data that WordPress already uses. May be fun to revisit sometime though to allow for more data from Lightroom, etc.
 	 *
-	 * @param $post_id int The post ID of the attachment that was just added from an image upload.
+	 * @param int $post_id The post ID of the attachment that was just added from an image upload.
+	 *
 	 * @return mixed Only used when breaking from the script
 	 */
 	public function create_post_from_image( $post_id ) {
@@ -355,11 +356,17 @@ class Automatic_Featured_Image_Posts_Foghlaim {
 			'post_type'     => $afip_options['default_post_type'],
 		));
 
-		if ( isset( $afip_options['default_post_format'] ) && 'standard' != $afip_options['default_post_format'] )
+		if ( isset( $afip_options['default_post_format'] ) && 'standard' !== $afip_options['default_post_format'] )
 			set_post_format( $new_post_id, $afip_options['default_post_format'] );
 
 		update_post_meta( $new_post_id, '_thumbnail_id', $post_id );
-		wp_update_post( array( 'ID' => $post_id, 'post_parent' => $new_post_id, 'post_status' => 'inherit' ) );
+
+		// Update the original image (attachment) to reflect new status.
+		wp_update_post( array(
+			'ID'          => $post_id,
+			'post_parent' => $new_post_id,
+			'post_status' => 'inherit',
+		) );
 
 		/**
 		 * Allow others to hook in and perform an action as each operation is complete. Passes
