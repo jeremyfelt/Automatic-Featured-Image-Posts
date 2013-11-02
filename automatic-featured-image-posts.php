@@ -350,6 +350,9 @@ class Automatic_Featured_Image_Posts_Foghlaim {
 		if ( false === apply_filters( 'afip_continue_new_post', true, $post_id ) )
 			return;
 
+		// Allow others to hook in and perform an action before a post is created.
+		do_action( 'afip_pre_create_post', $post_id );
+
 		$new_post_id = wp_insert_post( array(
 			'post_title'    => $new_post_title,
 			'post_content'  => $new_post_content,

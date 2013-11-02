@@ -38,6 +38,7 @@ After uploading 10, 100, or 1000 pictures from an event or vacation, you and oth
 
 ### Available Actions
 
+* `afip_pre_create_post` = Runs immediately before each post is created for an image.
 * 'afip_created_post' = Runs after each image load is processed.
 
 ## Installation
