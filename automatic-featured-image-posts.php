@@ -346,6 +346,10 @@ class Automatic_Featured_Image_Posts_Foghlaim {
 		/* Allow other functions or themes to change the post content before creation. */
 		$new_post_content = apply_filters( 'afip_new_post_content', '', $post_id );
 
+		// Provide a filter to bail before post creation for certain post IDs.
+		if ( false === apply_filters( 'afip_continue_new_post', true, $post_id ) )
+			return;
+
 		$new_post_id = wp_insert_post( array(
 			'post_title'    => $new_post_title,
 			'post_content'  => $new_post_content,
