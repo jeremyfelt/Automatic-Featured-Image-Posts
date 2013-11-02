@@ -5,7 +5,7 @@ Plugin URI: http://jeremyfelt.com/wordpress/plugins/automatic-featured-image-pos
 Description: Automatically creates a new post with an assigned featured image from every image upload.
 Version: 0.9
 Author: Jeremy Felt
-Author URI: http://jeremyfelt.com
+Author URI: http://jeremyfelt.com/
 License: GPL2
 */
 
@@ -29,12 +29,13 @@ class Automatic_Featured_Image_Posts_Foghlaim {
 
 	public function __construct() {
 		register_activation_hook( __FILE__, array( $this, 'activate' ) );
-		add_action( 'admin_init', array( $this, 'upgrade_check' ) );
-		add_action( 'admin_init', array( $this, 'add_languages' ) );
-		add_action( 'admin_menu', array( $this, 'add_settings' ) );
-		add_action( 'admin_init', array( $this, 'register_settings' ) );
+
+		add_action( 'admin_init',          array( $this, 'upgrade_check'           )        );
+		add_action( 'admin_init',          array( $this, 'add_languages'           )        );
+		add_action( 'admin_menu',          array( $this, 'add_settings'            )        );
+		add_action( 'admin_init',          array( $this, 'register_settings'       )        );
 		add_filter( 'plugin_action_links', array( $this, 'add_plugin_action_links' ), 10, 2 );
-		add_action( 'add_attachment', array( $this, 'create_post_from_image' ), 20 );
+		add_action( 'add_attachment',      array( $this, 'create_post_from_image'  ), 20    );
 	}
 
 	/**
@@ -126,9 +127,12 @@ class Automatic_Featured_Image_Posts_Foghlaim {
 	 */
 	public function register_settings() {
 		register_setting( 'afip_options', 'afip_options', array( $this, 'validate_options' ) );
+
 		add_settings_section( 'afip_section_main', '', array( $this, 'output_section_text' ), 'afip' );
-		add_settings_field( 'afip_default_post_status', __( 'Default Post Status:', 'automatic-featured-image-posts' ) , array( $this, 'output_default_post_status_text' ), 'afip', 'afip_section_main' );
-		add_settings_field( 'afip_default_post_type', __( 'Default Post Type:', 'automatic-featured-image-posts' ), array( $this, 'output_default_post_type_text' ), 'afip', 'afip_section_main' );
+
+		add_settings_field( 'afip_default_post_status', __( 'Default Post Status:', 'automatic-featured-image-posts' ), array( $this, 'output_default_post_status_text' ), 'afip', 'afip_section_main' );
+		add_settings_field( 'afip_default_post_type',   __( 'Default Post Type:',   'automatic-featured-image-posts' ), array( $this, 'output_default_post_type_text'   ), 'afip', 'afip_section_main' );
+
 		if ( current_theme_supports( 'post-formats' ) )
 			add_settings_field( 'afip_default_post_format', __( 'Default Post Format:', 'automatic-featured-image-posts' ), array( $this, 'output_default_post_format_text' ), 'afip', 'afip_section_main' );
 	}
@@ -169,7 +173,7 @@ class Automatic_Featured_Image_Posts_Foghlaim {
 			$afip_options['default_post_status'] = 'draft';
 		?>
 		<select id="afip_default_post_status" name="afip_options[default_post_status]">
-			<option value="draft" <?php selected( $afip_options['default_post_status'], 'draft' ); ?>>Draft</option>
+			<option value="draft"   <?php selected( $afip_options['default_post_status'], 'draft'   ); ?>>Draft</option>
 			<option value="publish" <?php selected( $afip_options['default_post_status'], 'publish' ); ?>>Publish</option>
 			<option value="private" <?php selected( $afip_options['default_post_status'], 'private' ); ?>>Private</option>
 		</select>
