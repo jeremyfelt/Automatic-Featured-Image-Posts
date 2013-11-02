@@ -38,6 +38,11 @@ class Automatic_Featured_Image_Posts_Foghlaim {
 	var $post_status = 'draft';
 
 	/**
+	 * @var string The default post format used.
+	 */
+	var $post_format = 'standard';
+
+	/**
 	 * Setup the hooks used by the plugin.
 	 */
 	public function __construct() {
@@ -70,7 +75,7 @@ class Automatic_Featured_Image_Posts_Foghlaim {
 			$afip_options['default_post_type'] = $current_afip_options['default_post_type'];
 
 		if ( empty( $current_afip_options['default_post_format'] ) )
-			$afip_options['default_post_format'] = 'standard';
+			$afip_options['default_post_format'] = $this->post_format;
 		else
 			$afip_options['default_post_format'] = $current_afip_options['default_post_format'];
 
@@ -202,7 +207,7 @@ class Automatic_Featured_Image_Posts_Foghlaim {
 		$afip_options = get_option( 'afip_options' );
 
 		if ( ! isset( $afip_options['default_post_format'] ) )
-			$afip_options['default_post_format'] = 'standard';
+			$afip_options['default_post_format'] = $this->post_format;
 		?>
 		<select id="afip_default_post_format" name="afip_options[default_post_format]">
 			<?php
@@ -240,7 +245,7 @@ class Automatic_Featured_Image_Posts_Foghlaim {
 		$valid_post_status_options = array( 'draft', 'publish', 'private' );
 		$valid_post_type_options = get_post_types( array( '_builtin' => false ) );
 		$valid_post_type_options[] = $this->post_type;
-		$valid_post_format_options = array( 'standard' );
+		$valid_post_format_options = array( $this->post_format );
 
 		if ( isset( $_wp_theme_features['post-formats'] ) && is_array( $_wp_theme_features['post-formats'] ) ) {
 			foreach ( $_wp_theme_features['post-formats'] as $post_format_array ) {
@@ -257,7 +262,7 @@ class Automatic_Featured_Image_Posts_Foghlaim {
 			$input['default_post_type'] = $this->post_type;
 
 		if ( isset( $input['default_post_format'] ) && ! in_array( $input['default_post_format'], $valid_post_format_options ) )
-			$input['default_post_format'] = 'standard';
+			$input['default_post_format'] = $this->post_format;
 
 		return $input;
 	}
