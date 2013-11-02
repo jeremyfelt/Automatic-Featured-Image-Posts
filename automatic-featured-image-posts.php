@@ -27,6 +27,14 @@ License: GPL2
 
 class Automatic_Featured_Image_Posts_Foghlaim {
 
+	/**
+	 * @var string The default post type created.
+	 */
+	public var $post_type = 'post';
+
+	/**
+	 * Setup the hooks used by the plugin.
+	 */
 	public function __construct() {
 		register_activation_hook( __FILE__, array( $this, 'activate' ) );
 
@@ -52,7 +60,7 @@ class Automatic_Featured_Image_Posts_Foghlaim {
 			$afip_options['default_post_status'] = $current_afip_options['default_post_status'];
 
 		if ( empty( $current_afip_options['default_post_type'] ) )
-			$afip_options['default_post_type'] = 'post';
+			$afip_options['default_post_type'] = $this->post_type;
 		else
 			$afip_options['default_post_type'] = $current_afip_options['default_post_type'];
 
@@ -151,7 +159,7 @@ class Automatic_Featured_Image_Posts_Foghlaim {
 		$all_post_types = get_post_types( array( '_builtin' => false ) );
 
 		if ( ! isset( $afip_options['default_post_type'] ) )
-			$afip_options['default_post_type'] = 'post';
+			$afip_options['default_post_type'] = $this->post_type;
 		?>
 		<select id="afip-default-post-type" name="afip_options[default_post_type]">
 			<option value="post" <?php selected( $afip_options['default_post_type'], 'post' ); ?>>Post</option>
@@ -226,7 +234,7 @@ class Automatic_Featured_Image_Posts_Foghlaim {
 		global $_wp_theme_features;
 		$valid_post_status_options = array( 'draft', 'publish', 'private' );
 		$valid_post_type_options = get_post_types( array( '_builtin' => false ) );
-		$valid_post_type_options[] = 'post';
+		$valid_post_type_options[] = $this->post_type;
 		$valid_post_format_options = array( 'standard' );
 
 		if ( isset( $_wp_theme_features['post-formats'] ) && is_array( $_wp_theme_features['post-formats'] ) ) {
@@ -241,7 +249,7 @@ class Automatic_Featured_Image_Posts_Foghlaim {
 			$input['default_post_status'] = 'draft';
 
 		if ( ! in_array( $input['default_post_type'], $valid_post_type_options ) )
-			$input['default_post_type'] = 'post';
+			$input['default_post_type'] = $this->post_type;
 
 		if ( isset( $input['default_post_format'] ) && ! in_array( $input['default_post_format'], $valid_post_format_options ) )
 			$input['default_post_format'] = 'standard';
