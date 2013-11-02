@@ -33,6 +33,11 @@ class Automatic_Featured_Image_Posts_Foghlaim {
 	var $post_type = 'post';
 
 	/**
+	 * @var string The default post status used.
+	 */
+	var $post_status = 'draft';
+
+	/**
 	 * Setup the hooks used by the plugin.
 	 */
 	public function __construct() {
@@ -55,7 +60,7 @@ class Automatic_Featured_Image_Posts_Foghlaim {
 		$afip_options = array();
 
 		if ( empty( $current_afip_options['default_post_status'] ) )
-			$afip_options['default_post_status'] = 'publish';
+			$afip_options['default_post_status'] = $this->post_status;
 		else
 			$afip_options['default_post_status'] = $current_afip_options['default_post_status'];
 
@@ -178,7 +183,7 @@ class Automatic_Featured_Image_Posts_Foghlaim {
 		$afip_options = get_option( 'afip_options' );
 
 		if ( ! isset( $afip_options['default_post_status'] ) )
-			$afip_options['default_post_status'] = 'draft';
+			$afip_options['default_post_status'] = $this->post_status;
 		?>
 		<select id="afip_default_post_status" name="afip_options[default_post_status]">
 			<option value="draft"   <?php selected( $afip_options['default_post_status'], 'draft'   ); ?>>Draft</option>
@@ -246,7 +251,7 @@ class Automatic_Featured_Image_Posts_Foghlaim {
 		}
 
 		if ( ! in_array( $input['default_post_status'], $valid_post_status_options ) )
-			$input['default_post_status'] = 'draft';
+			$input['default_post_status'] = $this->post_status;
 
 		if ( ! in_array( $input['default_post_type'], $valid_post_type_options ) )
 			$input['default_post_type'] = $this->post_type;
