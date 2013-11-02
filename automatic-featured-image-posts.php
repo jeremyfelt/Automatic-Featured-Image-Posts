@@ -30,7 +30,7 @@ class Automatic_Featured_Image_Posts_Foghlaim {
 	/**
 	 * @var string The default post type created.
 	 */
-	public var $post_type = 'post';
+	var $post_type = 'post';
 
 	/**
 	 * Setup the hooks used by the plugin.
