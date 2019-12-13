@@ -84,7 +84,7 @@ class Automatic_Featured_Image_Posts_Foghlaim {
 
 		update_option( 'afip_options', $afip_options );
 
-		if ( '0.5' != get_option( 'afip_upgrade_check' ) ) {
+		if ( '0.5' !== get_option( 'afip_upgrade_check' ) ) {
 			update_option( 'afip_upgrade_check', '0.5' );
 		}
 	}
@@ -94,7 +94,7 @@ class Automatic_Featured_Image_Posts_Foghlaim {
 	 * running through activation accordingly.
 	 */
 	public function upgrade_check() {
-		if ( '0.5' != get_option( 'afip_upgrade_check' ) ) {
+		if ( '0.5' !== get_option( 'afip_upgrade_check' ) ) {
 			$this->activate();
 		}
 	}
@@ -233,7 +233,7 @@ class Automatic_Featured_Image_Posts_Foghlaim {
 							<option value="<?php echo esc_attr( $post_format ); ?>" <?php selected( $afip_options['default_post_format'], esc_attr( $post_format ) ); ?>><?php echo esc_html( ucwords( $post_format ) ); ?></option>
 							<?php
 					}
-					if ( ! in_array( 'standard', $post_format_array ) ) {
+					if ( ! in_array( 'standard', $post_format_array, true ) ) {
 						?>
 							<option value="standard" <?php selected( $afip_options['default_post_format'], 'standard' ); ?>>Standard</option>
 							<?php
@@ -270,15 +270,15 @@ class Automatic_Featured_Image_Posts_Foghlaim {
 			}
 		}
 
-		if ( ! in_array( $input['default_post_status'], $valid_post_status_options ) ) {
+		if ( ! in_array( $input['default_post_status'], $valid_post_status_options, true ) ) {
 			$input['default_post_status'] = $this->post_status;
 		}
 
-		if ( ! in_array( $input['default_post_type'], $valid_post_type_options ) ) {
+		if ( ! in_array( $input['default_post_type'], $valid_post_type_options, true ) ) {
 			$input['default_post_type'] = $this->post_type;
 		}
 
-		if ( isset( $input['default_post_format'] ) && ! in_array( $input['default_post_format'], $valid_post_format_options ) ) {
+		if ( isset( $input['default_post_format'] ) && ! in_array( $input['default_post_format'], $valid_post_format_options, true ) ) {
 			$input['default_post_format'] = $this->post_format;
 		}
 
@@ -302,7 +302,7 @@ class Automatic_Featured_Image_Posts_Foghlaim {
 			$this_plugin = plugin_basename( __FILE__ );
 		}
 
-		if ( $file == $this_plugin ) {
+		if ( $file === $this_plugin ) {
 			$settings_link = '<a href="' . site_url( '/wp-admin/options-general.php?page=automatic-featured-image-posts-settings' ) . '">' . __( 'Settings', 'automatic-featured-image-posts' ) . '</a>';
 			array_unshift( $links, $settings_link );
 		}
