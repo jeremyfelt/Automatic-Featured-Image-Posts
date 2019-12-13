@@ -128,8 +128,8 @@ class Automatic_Featured_Image_Posts_Foghlaim {
 		?>
 		<div class="wrap">
 			<div class="icon32" id="icon-options-general"></div>
-			<h2><?php _e( 'Automatic Featured Image Posts', 'automatic-featured-image-posts' ); ?></h2>
-			<h3><?php _e( 'Overview', 'automatic-featured-image-posts' ); ?></h3>
+			<h2><?php esc_html_e( 'Automatic Featured Image Posts', 'automatic-featured-image-posts' ); ?></h2>
+			<h3><?php esc_html_e( 'Overview', 'automatic-featured-image-posts' ); ?></h3>
 			<p style="margin-left: 12px;max-width: 640px;"><?php _e( 'The default <strong>post status</strong> is set to <strong>publish</strong> by default. This means that as soon as you upload a new image through any interface in WordPress, a new post will appear with that image assigned as the featured image.', 'automatic-featured-image-posts' ); ?></p>
 			<p style="margin-left: 12px;max-width: 640px;"><?php _e( 'The default <strong>post type</strong> is set to the most familiar WordPress post type, <strong>Post</strong>. Other custom post types registered by your theme and installed plugins have been automatically detected and will also appear in the drop down menu as options. Note that these custom post types should have support for featured images, or they may not appear as you would like.', 'automatic-featured-image-posts' ); ?></p>
 			<?php
@@ -145,7 +145,7 @@ class Automatic_Featured_Image_Posts_Foghlaim {
 			settings_fields( 'afip_options' );
 			do_settings_sections( 'afip' );
 		?>
-			<p class="submit"><input type="submit" class="button-primary" value="<?php _e( 'Save Changes', 'automatic-featured-image-posts' ); ?>"></p>
+			<p class="submit"><input type="submit" class="button-primary" value="<?php esc_attr_e( 'Save Changes', 'automatic-featured-image-posts' ); ?>"></p>
 			</form>
 		</div>
 		<?php
