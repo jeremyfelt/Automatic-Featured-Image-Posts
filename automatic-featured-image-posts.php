@@ -328,9 +328,10 @@ class Automatic_Featured_Image_Posts_Foghlaim {
 		}
 
 		$new_post_category = array();
+		$parent_post_id    = get_post( $post_id )->post_parent;
 
 		// If an image is being uploaded through an existing post, it will have been assigned a post parent
-		if ( $parent_post_id = get_post( $post_id )->post_parent ) {
+		if ( $parent_post_id ) {
 
 			/**
 			 * It doesn't make sense to create a new post with a featured image from an image
@@ -342,11 +343,13 @@ class Automatic_Featured_Image_Posts_Foghlaim {
 				return;
 			}
 
+			$parent_post_categories = get_the_category( $parent_post_id );
+
 			/**
 			 * If this image is being added through an existing post, make sure that it inherits
 			 * the category setting from its parent.
 			 */
-			if ( $parent_post_categories = get_the_category( $parent_post_id ) ) {
+			if ( $parent_post_categories ) {
 				foreach ( $parent_post_categories as $post_cat ) {
 					$new_post_category[] = $post_cat->cat_ID;
 				}
