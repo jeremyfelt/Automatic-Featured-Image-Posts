@@ -158,7 +158,7 @@ function output_default_post_status_text() {
  * image is automatically added.
  */
 function output_default_post_format_text() {
-	global $_wp_theme_features;
+	$post_formats = get_theme_support( 'post-formats' );
 	$afip_options = get_option( 'afip_options' );
 
 	if ( ! isset( $afip_options['default_post_format'] ) ) {
@@ -167,23 +167,22 @@ function output_default_post_format_text() {
 	?>
 	<select id="afip_default_post_format" name="afip_options[default_post_format]">
 		<?php
-		if ( isset( $_wp_theme_features['post-formats'] ) && is_array( $_wp_theme_features['post-formats'] ) ) {
-			foreach ( $_wp_theme_features['post-formats'] as $post_format_array ) {
-				foreach ( $post_format_array as $post_format ) {
-					?>
-						<option value="<?php echo esc_attr( $post_format ); ?>" <?php selected( $afip_options['default_post_format'], esc_attr( $post_format ) ); ?>><?php echo esc_html( ucwords( $post_format ) ); ?></option>
-						<?php
-				}
-				if ( ! in_array( 'standard', $post_format_array, true ) ) {
-					?>
-						<option value="standard" <?php selected( $afip_options['default_post_format'], 'standard' ); ?>>Standard</option>
-						<?php
-				}
+		if ( is_array( $post_formats ) ) {
+			$post_formats = array_pop( $post_formats );
+			foreach ( $post_formats as $post_format ) {
+				?>
+				<option value="<?php echo esc_attr( $post_format ); ?>" <?php selected( $afip_options['default_post_format'], esc_attr( $post_format ) ); ?>><?php echo esc_html( ucwords( $post_format ) ); ?></option>
+				<?php
+			}
+			if ( ! in_array( 'standard', $post_formats, true ) ) {
+				?>
+				<option value="standard" <?php selected( $afip_options['default_post_format'], 'standard' ); ?>>Standard</option>
+				<?php
 			}
 		} else {
 			?>
-				<option value="standard" <?php selected( $afip_options['default_post_format'], 'standard' ); ?>>Standard</option>
-				<?php
+			<option value="standard" <?php selected( $afip_options['default_post_format'], 'standard' ); ?>>Standard</option>
+			<?php
 		}
 		?>
 	</select>
@@ -204,6 +203,7 @@ function validate_options( $input ) {
 	$valid_post_format_options = array( 'standard' );
 
 	if ( is_array( $post_formats ) ) {
+		$post_formats = array_pop( $post_formats );
 		foreach ( $post_formats as $post_format ) {
 			$valid_post_format_options[] = $post_format;
 		}
