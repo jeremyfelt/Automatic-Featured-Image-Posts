@@ -197,17 +197,15 @@ function output_default_post_format_text() {
  * @return array of validated options that we've confirmed for storing
  */
 function validate_options( $input ) {
-	global $_wp_theme_features;
+	$post_formats              = get_theme_support( 'post-formats' );
 	$valid_post_status_options = array( 'draft', 'publish', 'private' );
 	$valid_post_type_options   = get_post_types( array( '_builtin' => false ) );
 	$valid_post_type_options[] = 'post';
 	$valid_post_format_options = array( 'standard' );
 
-	if ( isset( $_wp_theme_features['post-formats'] ) && is_array( $_wp_theme_features['post-formats'] ) ) {
-		foreach ( $_wp_theme_features['post-formats'] as $post_format_array ) {
-			foreach ( $post_format_array as $post_format ) {
-				$valid_post_format_options[] = $post_format;
-			}
+	if ( is_array( $post_formats ) ) {
+		foreach ( $post_formats as $post_format ) {
+			$valid_post_format_options[] = $post_format;
 		}
 	}
 
