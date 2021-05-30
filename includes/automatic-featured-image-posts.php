@@ -193,8 +193,8 @@ function output_default_post_format_text() {
 /**
  * Validation of a drop down. Hmm. Well, if it isn't on our list, we'll force it onto our list.
  *
- * @param $input array of options that we are attempting to store to the database
- * @return array of validated options that we've confirmed for storing
+ * @param array $input A list of we are attempting to store to the database.
+ * @return array A list of validated options confirmed for storage.
  */
 function validate_options( $input ) {
 	$post_formats              = get_theme_support( 'post-formats' );
@@ -225,13 +225,10 @@ function validate_options( $input ) {
 }
 
 /**
- * Make a pretty link for settings under the plugin information in the admin screen
+ * Make a pretty link for settings under the plugin information in the admin screen.
  *
- * Function gratefully taken (and barely modified) from Pippin Williamson's
- * WPMods article: http://www.wpmods.com/adding-plugin-action-links/
- *
- * @param $links array of links to be shown with the plugin
- * @return array Updated links to be shown with the plugin
+ * @param array $links A list of links to be shown with the plugin.
+ * @return array A modified list of links to be shown with the plugin.
  */
 function add_plugin_action_links( $links ) {
 
@@ -262,7 +259,7 @@ function create_post_from_image( $post_id ) {
 	$new_post_category = array();
 	$parent_post_id    = get_post( $post_id )->post_parent;
 
-	// If an image is being uploaded through an existing post, it will have been assigned a post parent
+	// If an image is being uploaded through an existing post, it will have been assigned a post parent.
 	if ( $parent_post_id ) {
 
 		/**
