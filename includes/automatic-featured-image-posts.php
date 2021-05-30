@@ -10,32 +10,32 @@ add_action( 'admin_init', __NAMESPACE__ . '\register_settings' );
 add_action( 'add_attachment', __NAMESPACE__ . '\create_post_from_image', 20 );
 
 /**
+ * Provide the current set of plugin options.
+ *
+ * @return array A list of this plugin's options.
+ */
+function get_options() {
+	$options = get_option( 'afip_options', array() );
+
+	$defaults = array(
+		'default_post_status' => 'draft',
+		'default_post_type'   => 'post',
+		'default_post_format' => 'standard',
+	);
+
+	$options = wp_parse_args( $options, $defaults );
+
+	return $options;
+}
+
+/**
  * Upon activation, we'll want to check for existing plugin options and make sure that
  * defaults are assigned if this is the first time.
  */
 function activate() {
-	$current_afip_options = get_option( 'afip_options' );
-	$afip_options         = array();
+	$options = get_options();
 
-	if ( empty( $current_afip_options['default_post_status'] ) ) {
-		$afip_options['default_post_status'] = 'draft';
-	} else {
-		$afip_options['default_post_status'] = $current_afip_options['default_post_status'];
-	}
-
-	if ( empty( $current_afip_options['default_post_type'] ) ) {
-		$afip_options['default_post_type'] = 'post';
-	} else {
-		$afip_options['default_post_type'] = $current_afip_options['default_post_type'];
-	}
-
-	if ( empty( $current_afip_options['default_post_format'] ) ) {
-		$afip_options['default_post_format'] = 'standard';
-	} else {
-		$afip_options['default_post_format'] = $current_afip_options['default_post_format'];
-	}
-
-	update_option( 'afip_options', $afip_options );
+	update_option( 'afip_options', $options );
 
 	if ( '0.5' !== get_option( 'afip_upgrade_check' ) ) {
 		update_option( 'afip_upgrade_check', '0.5' );
@@ -118,12 +118,9 @@ function register_settings() {
  * image is automatically added.
  */
 function output_default_post_type_text() {
-	$afip_options   = get_option( 'afip_options' );
+	$afip_options   = get_options();
 	$all_post_types = get_post_types( array( '_builtin' => false ) );
 
-	if ( ! isset( $afip_options['default_post_type'] ) ) {
-		$afip_options['default_post_type'] = 'post';
-	}
 	?>
 	<select id="afip-default-post-type" name="afip_options[default_post_type]">
 		<option value="post" <?php selected( $afip_options['default_post_type'], 'post' ); ?>>Post</option>
@@ -139,11 +136,8 @@ function output_default_post_type_text() {
  * image is automatically added.
  */
 function output_default_post_status_text() {
-	$afip_options = get_option( 'afip_options' );
+	$afip_options = get_options();
 
-	if ( ! isset( $afip_options['default_post_status'] ) ) {
-		$afip_options['default_post_status'] = 'draft';
-	}
 	?>
 	<select id="afip_default_post_status" name="afip_options[default_post_status]">
 		<option value="draft"   <?php selected( $afip_options['default_post_status'], 'draft' ); ?>>Draft</option>
@@ -159,11 +153,8 @@ function output_default_post_status_text() {
  */
 function output_default_post_format_text() {
 	$post_formats = get_theme_support( 'post-formats' );
-	$afip_options = get_option( 'afip_options' );
+	$afip_options = get_options();
 
-	if ( ! isset( $afip_options['default_post_format'] ) ) {
-		$afip_options['default_post_format'] = 'standard';
-	}
 	?>
 	<select id="afip_default_post_format" name="afip_options[default_post_format]">
 		<?php
@@ -285,7 +276,7 @@ function create_post_from_image( $post_id ) {
 		}
 	}
 
-	$afip_options = get_option( 'afip_options' );
+	$afip_options = get_options();
 	$current_user = wp_get_current_user();
 
 	/* Allow other functions or themes to change the post date before creation. */
