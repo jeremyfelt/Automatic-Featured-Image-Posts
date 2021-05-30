@@ -103,7 +103,7 @@ function view_settings() {
 function register_settings() {
 	register_setting( 'afip_options', 'afip_options', __NAMESPACE__ . '\validate_options' );
 
-	add_settings_section( 'afip_section_main', '', __NAMESPACE__ . '\output_section_text', 'afip' );
+	add_settings_section( 'afip_section_main', '', '__return_empty_string', 'afip' );
 
 	add_settings_field( 'afip_default_post_status', __( 'Default Post Status:', 'automatic-featured-image-posts' ), __NAMESPACE__ . '\output_default_post_status_text', 'afip', 'afip_section_main' );
 	add_settings_field( 'afip_default_post_type', __( 'Default Post Type:', 'automatic-featured-image-posts' ), __NAMESPACE__ . '\output_default_post_type_text', 'afip', 'afip_section_main' );
@@ -112,11 +112,6 @@ function register_settings() {
 		add_settings_field( 'afip_default_post_format', __( 'Default Post Format:', 'automatic-featured-image-posts' ), __NAMESPACE__ . '\output_default_post_format_text', 'afip', 'afip_section_main' );
 	}
 }
-
-/**
- * Placeholder for settings section. Would be overkill methinks.
- */
-function output_section_text() { }
 
 /**
  * Output the text related to selecting the post type to be assigned when a featured
