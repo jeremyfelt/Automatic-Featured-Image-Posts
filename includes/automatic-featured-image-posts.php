@@ -2,12 +2,12 @@
 
 namespace AutomaticFeaturedImagePosts;
 
-register_activation_hook( AFIP_PLUGIN_FILE, __NAMESPACE__ . '\activate' );
+add_action( 'activate_' . AFIP_PLUGIN_FILE, __NAMESPACE__ . '\activate' );
+add_filter( 'plugin_action_links_' . AFIP_PLUGIN_FILE, __NAMESPACE__ . '\add_plugin_action_links', 10 );
 add_action( 'admin_init', __NAMESPACE__ . '\upgrade_check' );
 add_action( 'admin_init', __NAMESPACE__ . '\add_languages' );
 add_action( 'admin_menu', __NAMESPACE__ . '\add_settings' );
 add_action( 'admin_init', __NAMESPACE__ . '\register_settings' );
-add_filter( 'plugin_action_links_' . AFIP_PLUGIN_FILE, __NAMESPACE__ . '\add_plugin_action_links', 10 );
 add_action( 'add_attachment', __NAMESPACE__ . '\create_post_from_image', 20 );
 
 /**
