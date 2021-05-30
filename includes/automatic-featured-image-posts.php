@@ -5,7 +5,6 @@ namespace AutomaticFeaturedImagePosts;
 add_action( 'activate_' . AFIP_PLUGIN_FILE, __NAMESPACE__ . '\activate' );
 add_filter( 'plugin_action_links_' . AFIP_PLUGIN_FILE, __NAMESPACE__ . '\add_plugin_action_links', 10 );
 add_action( 'admin_init', __NAMESPACE__ . '\upgrade_check' );
-add_action( 'admin_init', __NAMESPACE__ . '\add_languages' );
 add_action( 'admin_menu', __NAMESPACE__ . '\add_settings' );
 add_action( 'admin_init', __NAMESPACE__ . '\register_settings' );
 add_action( 'add_attachment', __NAMESPACE__ . '\create_post_from_image', 20 );
@@ -51,13 +50,6 @@ function upgrade_check() {
 	if ( '0.5' !== get_option( 'afip_upgrade_check' ) ) {
 		activate();
 	}
-}
-
-/**
- * Add the text domain for plugin translation
- */
-function add_languages() {
-	load_plugin_textdomain( 'automated-featured-image-posts', false, basename( dirname( __FILE__ ) ) . '/lang' );
 }
 
 /**
