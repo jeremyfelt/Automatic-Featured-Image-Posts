@@ -8,7 +8,7 @@ Automatic Featured Image Posts creates a new post with a featured image every ti
 * Requires at least: 3.2.1
 * Tested up to: 3.7
 * Stable tag: 1.0
-* License: GPLv2
+* License: GPLv2 or later
 
 ## Description
 
