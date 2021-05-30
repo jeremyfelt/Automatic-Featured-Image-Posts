@@ -31,4 +31,8 @@ if ( version_compare( PHP_VERSION, '5.6', '<' ) ) {
 	return;
 }
 
+// Capture the filename so that it's easily available just in case for some reason
+// someone changes this filename. How defensive is that!
+define( 'AFIP_PLUGIN_FILE', plugin_basename( __FILE__ ) );
+
 require_once __DIR__ . '/includes/automatic-featured-image-posts.php';

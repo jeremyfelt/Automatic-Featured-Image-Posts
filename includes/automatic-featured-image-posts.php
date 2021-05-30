@@ -2,12 +2,12 @@
 
 namespace AutomaticFeaturedImagePosts;
 
-register_activation_hook( __FILE__, __NAMESPACE__ . '\activate' );
+register_activation_hook( AFIP_PLUGIN_FILE, __NAMESPACE__ . '\activate' );
 add_action( 'admin_init', __NAMESPACE__ . '\upgrade_check' );
 add_action( 'admin_init', __NAMESPACE__ . '\add_languages' );
 add_action( 'admin_menu', __NAMESPACE__ . '\add_settings' );
 add_action( 'admin_init', __NAMESPACE__ . '\register_settings' );
-add_filter( 'plugin_action_links', __NAMESPACE__ . '\add_plugin_action_links', 10, 2 );
+add_filter( 'plugin_action_links_' . AFIP_PLUGIN_FILE, __NAMESPACE__ . '\add_plugin_action_links', 10 );
 add_action( 'add_attachment', __NAMESPACE__ . '\create_post_from_image', 20 );
 
 /**
@@ -246,20 +246,13 @@ function validate_options( $input ) {
  * WPMods article: http://www.wpmods.com/adding-plugin-action-links/
  *
  * @param $links array of links to be shown with the plugin
- * @param $file string of the filename we're working with at the moment
  * @return array Updated links to be shown with the plugin
  */
-function add_plugin_action_links( $links, $file ) {
-	static $this_plugin;
+function add_plugin_action_links( $links ) {
 
-	if ( ! $this_plugin ) {
-		$this_plugin = plugin_basename( dirname( __DIR__ ) . '/automatic-featured-image-posts.php' );
-	}
+	$settings_link = '<a href="' . site_url( '/wp-admin/options-general.php?page=automatic-featured-image-posts-settings' ) . '">' . __( 'Settings', 'automatic-featured-image-posts' ) . '</a>';
+	array_unshift( $links, $settings_link );
 
-	if ( $file === $this_plugin ) {
-		$settings_link = '<a href="' . site_url( '/wp-admin/options-general.php?page=automatic-featured-image-posts-settings' ) . '">' . __( 'Settings', 'automatic-featured-image-posts' ) . '</a>';
-		array_unshift( $links, $settings_link );
-	}
 	return $links;
 }
 
