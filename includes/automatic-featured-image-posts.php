@@ -256,7 +256,6 @@ function add_plugin_action_links( $links, $file ) {
 		$this_plugin = plugin_basename( dirname( __DIR__ ) . '/automatic-featured-image-posts.php' );
 	}
 
-	var_dump( $this_plugin );
 	if ( $file === $this_plugin ) {
 		$settings_link = '<a href="' . site_url( '/wp-admin/options-general.php?page=automatic-featured-image-posts-settings' ) . '">' . __( 'Settings', 'automatic-featured-image-posts' ) . '</a>';
 		array_unshift( $links, $settings_link );
