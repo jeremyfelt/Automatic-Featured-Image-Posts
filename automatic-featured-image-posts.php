@@ -1,13 +1,15 @@
 <?php
-/*
-Plugin Name: Automatic Featured Image Posts
-Plugin URI: http://jeremyfelt.com/wordpress/plugins/automatic-featured-image-posts/
-Description: Automatically creates a new post with an assigned featured image from every image upload.
-Version: 1.0
-Author: Jeremy Felt
-Author URI: http://jeremyfelt.com/
-License: GPLv2
-*/
+/**
+ * Plugin Name:     Automatic Featured Image Posts
+ * Plugin URI:      https://github.com/jeremyfelt/automatic-featured-image-posts
+ * Description:     Automatically creates a new post with an assigned featured image from every image upload.
+ * Author:          jeremyfelt
+ * Author URI:      https://jeremyfelt.com
+ * Text Domain:     automatic-featured-image-posts
+ * Domain Path:     /languages
+ * Version:         1.0.0
+ * License:         GPLv2
+ */
 
 /*  Copyright 2011-2013 Jeremy Felt (email: jeremy.felt@gmail.com)
 
