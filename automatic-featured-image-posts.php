@@ -5,8 +5,6 @@
  * Description:     Automatically creates a new post with an assigned featured image from every image upload.
  * Author:          jeremyfelt
  * Author URI:      https://jeremyfelt.com
- * Text Domain:     automatic-featured-image-posts
- * Domain Path:     /languages
  * Version:         1.0.0
  * License:         GPLv2 or later
  */
